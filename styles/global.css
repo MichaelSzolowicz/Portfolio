@@ -1,0 +1,27 @@
+
+.project {
+    border: solid black;
+
+    margin: auto;
+
+    width: fit-content;
+
+    text-align: center;
+}
+
+.project div {
+    border: solid blue;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.project img {
+    width: 100%;
+    max-width: 500px;
+}
+
+@media (max-width: 1440px) {
+    .break {
+        display: block;
+    }
+}
