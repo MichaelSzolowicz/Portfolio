@@ -1,12 +1,9 @@
 
 .project {
     border: solid black;
-
-    margin: auto;
-
-    width: fit-content;
-
     text-align: center;
+    width: fit-content;
+    margin: auto;
 }
 
 .project div {

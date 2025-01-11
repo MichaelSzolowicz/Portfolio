@@ -2,20 +2,40 @@
 <html lang="eng-US">
 <head>
     <link rel="stylesheet" href="styles/global.css">
+
+    <script>
+        window.addEventListener("resize", onResize);
+
+        function onResize() {
+            document.getElementById("padding").style.width = 0 + "px";
+            var vw = window.innerWidth;
+
+            if(vw > 1440) {
+                var w = document.getElementById("project").clientWidth;
+
+                var padding = vw - w;
+
+                document.getElementById("padding").style.width = (padding - 100) + "px";
+
+                console.log("Padding width: ", padding);
+            }
+        }
+    </script>
 </head>
 <body>
 
-    <div class="project">
+    <div id="project" class="project">
         <!-- <img class="top-border" src="images/MWII_BLEED_UNBRANDED_CL_040422-1.jpg" alt="bedroom"> -->
         <div>
             <img src="images/MWII_BLEED_UNBRANDED_CL_040422-1.jpg" alt="bedroom">
         </div>
         <span class="break"></span>
+        <div id="padding" style="display: inline-block;"></div>
         <div class="break">
             <h1>Tools Intern - Infinity Ward</h1>
             <ul>
                 <li>Implemented a new workflow focused on reducing iteration times for creatives.</li>
-                <li>Adapted to an unfamiliar codesbase through bug fixing and UX improvement. ---------------------------------------------------</li>
+                <li>Adapted to an unfamiliar codesbase through bug fixing and UX improvement.</li>
                 <li>Responded to feedback from Tools and UX leads.</li>
                 <li>Contributed to code reviews, sprint retrospectives, and feature meetings.</li>
                 <li>Implemented a new workflow focused on reducing iteration times for creatives.</li>
