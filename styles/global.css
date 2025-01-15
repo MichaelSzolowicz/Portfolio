@@ -15,7 +15,7 @@ span.project-stacked {
     width: fit-content;
     white-space: nowrap;
 
-    border: solid yellow;
+    border: solid green;
 }
 
 span.project-shrinking {
