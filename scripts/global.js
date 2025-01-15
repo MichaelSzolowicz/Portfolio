@@ -48,5 +48,7 @@ function onResize() {
     }
 
     projectWidth = document.getElementById("project").clientWidth;
-    console.log("Resized project to " + projectWidth);
+    console.log("Resized project to " + projectWidth + "\n"
+        + "Viewport width: " + viewportWidth
+    );
 }
