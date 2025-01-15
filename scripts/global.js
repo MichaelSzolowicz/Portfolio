@@ -1,6 +1,7 @@
 
 var maxProjectWidth = 1500;
 var minProjectWidth = 1000;
+var maxProjectShrink = .5;
 
 window.addEventListener("resize", onResize);
 screen.orientation.onchange = function() {
@@ -14,6 +15,8 @@ function onResize() {
     document.getElementById("project-padding").style.width = 0 +  "px";
 
     var viewportWidth = window.innerWidth;
+
+    var projectWidth = document.getElementById("project").clientWidth;
 
     if(viewportWidth > minProjectWidth) {
         // Pad project up to max project width
@@ -35,6 +38,10 @@ function onResize() {
         }
 
         document.getElementById("project-padding").style.width = padding + "px";
+    }
+    else if (projectWidth > minProjectWidth * maxProjectShrink) {
+        document.getElementById("project-padding").style.display = "none";
+        document.getElementById("project").className = "project-shrinking";
     }
     else {
         document.getElementById("project-padding").style.display = "block";

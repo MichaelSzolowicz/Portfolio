@@ -18,6 +18,16 @@ span.project-stacked {
     border: solid blue;
 }
 
+span.project-shrinking {
+    display: block;
+    display: block;
+    margin: auto;
+    width: fit-content;
+    white-space: wrap;
+
+    border: solid yellow;
+}
+
 span.project span {
     display: inline-block;
     vertical-align: middle;
@@ -28,8 +38,13 @@ span.project-stacked span {
     width: 100%;
     white-space: wrap;
     text-align: center;
+}
 
-    border: solid blue;
+span.project-shrinking span {
+    display: inline-block;
+    width: 49%;
+    white-space: wrap;
+    vertical-align: middle;
 }
 
 img {
