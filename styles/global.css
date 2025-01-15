@@ -1,27 +1,22 @@
 
 .project {
     border: solid black;
-    text-align: center;
-    width: fit-content;
-    margin: auto;
+
 }
 
 .project div {
-    border: solid blue;
-    display: inline-block;
-    vertical-align: middle;
+
 }
 
 .project img {
     width: 100%;
-    max-width: 500px;
 }
 
 /*
 @media (max-width: 1440px) {
     .break {
         display: block;
-        width: 500px;
+
     }
 }
     */
