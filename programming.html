@@ -3,24 +3,7 @@
 <head>
     <link rel="stylesheet" href="styles/global.css">
 
-    <script>
-        window.addEventListener("resize", onResize);
-
-        function onResize() {
-            document.getElementById("padding").style.width = 0 + "px";
-            var vw = window.innerWidth;
-
-            if(vw > 1440) {
-                var w = document.getElementById("project").clientWidth;
-
-                var padding = vw - w;
-
-                document.getElementById("padding").style.width = (padding - 100) + "px";
-
-                console.log("Padding width: ", padding);
-            }
-        }
-    </script>
+    <script src="scripts/global.js" defer></script>
 </head>
 <body>
 
@@ -29,8 +12,8 @@
         <div>
             <img src="images/MWII_BLEED_UNBRANDED_CL_040422-1.jpg" alt="bedroom">
         </div>
-        <span class="break"></span>
-        <div id="padding" style="display: inline-block;"></div>
+        <span id="break"></span>
+        <div id="padding" style="display: inline-block; border: none;"></div>
         <div class="break">
             <h1>Tools Intern - Infinity Ward</h1>
             <ul>
