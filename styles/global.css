@@ -25,7 +25,7 @@ span.project-shrinking {
     width: fit-content;
     white-space: wrap;
 
-    border: solid yellow;
+    border: solid green;
 }
 
 span.project span {
