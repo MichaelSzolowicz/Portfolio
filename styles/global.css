@@ -20,12 +20,14 @@ span.project-stacked {
 
 span.project span {
     display: inline-block;
+    vertical-align: middle;
 }
 
 span.project-stacked span {
     display: inline-block;
     width: 100%;
     white-space: wrap;
+    text-align: center;
 
     border: solid blue;
 }
@@ -33,4 +35,5 @@ span.project-stacked span {
 img {
     width: 100%;
     max-width: 500px;
+    vertical-align: middle;
 }
