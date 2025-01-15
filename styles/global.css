@@ -9,10 +9,28 @@ span.project {
     border: solid;
 }
 
+span.project-stacked {
+    display: block;
+    width: 100%;
+    scale: .75;
+    white-space: nowrap;
+
+    border: solid blue;
+}
+
 span.project span {
     display: inline-block;
 }
 
+span.project-stacked span {
+    display: inline-block;
+    width: 100%;
+    white-space: wrap;
+
+    border: solid blue;
+}
+
 img {
+    width: 100%;
     max-width: 500px;
 }

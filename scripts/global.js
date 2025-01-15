@@ -15,6 +15,7 @@ function onResize() {
     if(viewportWidth > minProjectWidth) {
         // Pad project up to max project width
         document.getElementById("project-padding").style.display = "inline-block";
+        document.getElementById("project").className = "project";
 
         var projectDefaultWidth = document.getElementById("project").clientWidth;
 
@@ -34,5 +35,6 @@ function onResize() {
     }
     else {
         document.getElementById("project-padding").style.display = "block";
+        document.getElementById("project").className = "project-stacked";
     }
 }
