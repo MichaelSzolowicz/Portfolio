@@ -13,7 +13,7 @@ onResize();
 function onResize() {
     document.getElementById("project-padding").style.width = 0 +  "px";
 
-    var viewportWidth = window.innerWidth;
+    var viewportWidth = window.clientWidth;
 
     var projectWidth = document.getElementById("project").clientWidth;
 
