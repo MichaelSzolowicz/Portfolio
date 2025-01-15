@@ -1,7 +1,7 @@
 
 var maxProjectWidth = 1500;
 var minProjectWidth = 1000;
-var maxProjectShrink = 1;
+var maxProjectShrink = .5;
 
 window.addEventListener("resize", onResize);
 screen.orientation.onchange = function() {
@@ -13,7 +13,7 @@ onResize();
 function onResize() {
     document.getElementById("project-padding").style.width = 0 +  "px";
 
-    var viewportWidth = document.body.innerWidth;
+    var viewportWidth = document.body.clientWidth;
 
     var projectWidth = document.getElementById("project").clientWidth;
 
