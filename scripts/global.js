@@ -3,6 +3,9 @@ var maxProjectWidth = 1500;
 var minProjectWidth = 1000;
 
 window.addEventListener("resize", onResize);
+screen.orientation.onchange = function() {
+    onResize();
+}
 
 onResize();
 

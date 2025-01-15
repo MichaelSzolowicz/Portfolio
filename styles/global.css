@@ -11,8 +11,8 @@ span.project {
 
 span.project-stacked {
     display: block;
-    width: 100%;
-    scale: .75;
+    margin: auto;
+    width: fit-content;
     white-space: nowrap;
 
     border: solid blue;
