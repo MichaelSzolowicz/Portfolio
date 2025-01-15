@@ -11,7 +11,6 @@ screen.orientation.onchange = function() {
 onResize();
 
 function onResize() {
-
     document.getElementById("project-padding").style.width = 0 +  "px";
 
     var viewportWidth = window.innerWidth;
@@ -47,4 +46,7 @@ function onResize() {
         document.getElementById("project-padding").style.display = "block";
         document.getElementById("project").className = "project-stacked";
     }
+
+    projectWidth = document.getElementById("project").clientWidth;
+    console.log("Resized project to " + projectWidth);
 }
