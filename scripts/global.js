@@ -1,36 +1,38 @@
-var stackWidth = 1440;
-var maxProjectWidthPercent = .8;
-var maxProjectWidthPixels = 1500;
+
+var maxProjectWidth = 1500;
+var minProjectWidth = 1000;
 
 window.addEventListener("resize", onResize);
 
 onResize();
 
 function onResize() {
-    document.getElementById("break").style.display = "inline";
-    document.getElementById("padding").style.width = 0 + "px";
-    var vw = window.innerWidth;
 
-    if(vw > stackWidth) {
-        var w = document.getElementById("project").clientWidth;
+    document.getElementById("project-padding").style.width = 0 +  "px";
 
-        var padding = vw - w;
+    var viewportWidth = window.innerWidth;
 
-        if (padding < maxProjectWidthPercent * vw) {
-            padding = (maxProjectWidthPercent * vw) - w;
+    if(viewportWidth > minProjectWidth) {
+        // Pad project up to max project width
+        document.getElementById("project-padding").style.display = "inline-block";
+
+        var projectDefaultWidth = document.getElementById("project").clientWidth;
+
+        var padding = viewportWidth - projectDefaultWidth;
+
+        if (projectDefaultWidth + padding > maxProjectWidth) {
+            padding = maxProjectWidth - projectDefaultWidth;
         }
+
+        padding = padding - 50;
 
         if (padding < 0) {
             padding = 0;
         }
 
-        document.getElementById("padding").style.width = (padding) + "px";
-        document.getElementById("padding").style.display = "inline-block";
-
-        console.log("Padding width: ", padding);
+        document.getElementById("project-padding").style.width = padding + "px";
     }
     else {
-        document.getElementById("break").style.display = "block";
-        document.getElementById("padding").style.display = "none";
+        document.getElementById("project-padding").style.display = "block";
     }
 }

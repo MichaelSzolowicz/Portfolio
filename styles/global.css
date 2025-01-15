@@ -1,22 +1,18 @@
 
-.project {
-    border: solid black;
+span.project {
+    display: block;
+    width: fit-content;
+    margin: auto;
 
+    white-space: nowrap;
+
+    border: solid;
 }
 
-.project div {
-
+span.project span {
+    display: inline-block;
 }
 
-.project img {
-    width: 100%;
+img {
+    max-width: 500px;
 }
-
-/*
-@media (max-width: 1440px) {
-    .break {
-        display: block;
-
-    }
-}
-    */
