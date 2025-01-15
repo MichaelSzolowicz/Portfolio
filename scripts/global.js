@@ -1,4 +1,4 @@
-var stackWidth = 900;
+var stackWidth = 2400;
 var maxProjectWidthPercent = .8;
 var maxProjectWidthPixels = 1500;
 
