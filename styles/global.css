@@ -1,15 +1,14 @@
 
-span.project {
+div.project {
     display: block;
-    width: fit-content;
     margin: auto;
-
+    width: fit-content;
     white-space: nowrap;
 
     border: solid;
 }
 
-span.project-stacked {
+div.project-stacked {
     display: block;
     margin: auto;
     width: fit-content;
@@ -18,31 +17,34 @@ span.project-stacked {
     border: solid blue;
 }
 
-span.project-shrinking {
-    display: block;
+div.project-shrinking {
     display: block;
     margin: auto;
     width: fit-content;
-    white-space: wrap;
+    white-space: nowrap;
 
     border: solid yellow;
 }
 
-span.project span {
+div.project div {
     display: inline-block;
+    width: 50%;
+    white-space: wrap;
     vertical-align: middle;
+
+    max-width: 500px;
 }
 
-span.project-stacked span {
+div.project-stacked div {
     display: inline-block;
     width: 100%;
     white-space: wrap;
     text-align: center;
 }
 
-span.project-shrinking span {
+div.project-shrinking div {
     display: inline-block;
-    width: 49%;
+    width: 50%;
     white-space: wrap;
     vertical-align: middle;
 }

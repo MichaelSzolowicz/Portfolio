@@ -1,7 +1,7 @@
 
 var maxProjectWidth = 1500;
-var minProjectWidth = 1000;
-var maxProjectShrink = 1;
+var minProjectWidth = 500;
+var maxProjectShrink = .5;
 
 window.addEventListener("resize", onResize);
 screen.orientation.onchange = function() {
@@ -29,8 +29,6 @@ function onResize() {
         if (projectDefaultWidth + padding > maxProjectWidth) {
             padding = maxProjectWidth - projectDefaultWidth;
         }
-
-        padding = padding - 50;
 
         if (padding < 0) {
             padding = 0;
