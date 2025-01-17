@@ -19,6 +19,7 @@ div#project #content {
     display: inline-block;
     white-space: wrap;
     width: 100%;
+    max-width: 500px;
 
     vertical-align: middle;
 }
@@ -37,6 +38,7 @@ div#project img {
 }
 
 div#project iframe {
+    max-width: 500px;
     box-sizing: border-box;
     padding: 20px;
     aspect-ratio: 16 / 9;
