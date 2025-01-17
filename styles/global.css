@@ -85,7 +85,9 @@ img {
 }
 
 #project-padding {
-    display: none;
+    display: inline-block;
+    width: 10%;
+    border: solid;
 }
 
 @media screen and (max-width: 700px) {
@@ -109,5 +111,7 @@ img {
 
     #project-padding {
         display: block;
+        width: 0%;
+        border: none;
     }
 }
