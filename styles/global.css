@@ -1,114 +1,76 @@
 
-/*
-div.project {
+div#project {
     display: flex;
     justify-content: space-between; 
     flex-direction: row;
     align-items: center;
+    white-space: nowrap;
     margin: auto;
-    max-width: 1100px;
+    max-width: 1250px;
     width: 70%;
-    white-space: nowrap;
 
-    border: solid;
-}
+    height: 500px;
 
-div.project-stacked {
-    display: block;
-    margin: auto;
-    width: fit-content;
-    white-space: nowrap;
-
-    border: solid blue;
-}
-
-
-div.project-shrinking {
-    display: block;
-    margin: auto;
-    width: fit-content;
-    white-space: nowrap;
-
-    border: solid yellow;
-}
-
-
-div.project div {
-    display: inline-block;
-    white-space: wrap;
-    width: fit-content;
-    max-width: 500px;
-    vertical-align: middle;
-}
-
-div.project-stacked div {
-    display: inline-block;
-    width: 100%;
-    white-space: wrap;
-    text-align: center;
-}
-
-
-div.project-shrinking div {
-    display: inline-block;
-    width: 50%;
-    white-space: wrap;
-    vertical-align: middle;
-}
-    */
-
-
-img {
-    width: 100%;
-    vertical-align: middle;
-}
-
-#project {
-    display: flex;
-    justify-content: space-between; 
-    flex-direction: row;
-    align-items: center;
-    margin: auto;
-    max-width: 1200px;
-    width: 70%;
-    white-space: nowrap;
-
+    /*** Debug ***/
     border: solid black;
 }
 
-#project div {
+div#project #content {
     display: inline-block;
     white-space: wrap;
-    width: fit-content;
-    max-width: 500px;
+    width: 100%;
+
     vertical-align: middle;
 }
 
-#project-padding {
+div#project span#project-padding {
     display: inline-block;
     padding-left: 5%;
 }
 
-@media screen and (max-width: 700px) {
-    #project {
+div#project img {
+    max-width: 500px;
+    max-height: 500px;
+    width: 100%;
+    display: inline;
+    vertical-align: middle;
+}
+
+div#project iframe {
+    box-sizing: border-box;
+    padding: 20px;
+    aspect-ratio: 16 / 9;
+}
+
+span#spacer {
+    display: block;
+    min-height: 50px;
+}
+
+@media screen and (max-width: 1000px) {
+    div#project {
         display: block;
         margin: auto;
         width: fit-content;
         white-space: nowrap;
 
         max-width: 70%;
+        min-width: 300px;
+        height: auto;
     
+        /*** Debug ***/
         border: solid blue;
     }
 
-    #project div {
+    div#project #content {
         display: inline-block;
         width: 100%;
+        max-height: fit-content;
         white-space: wrap;
         text-align: center;
     }
 
-    #project-padding {
+    div#project span#project-padding {
         display: block;
         width: 0%;
         border: none;
