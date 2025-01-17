@@ -12,7 +12,7 @@ div#project {
     height: 500px;
 
     /*** Debug ***/
-    border: solid black;
+    border: solid blue;
 }
 
 div#project #content {
@@ -61,7 +61,7 @@ span#spacer {
         height: auto;
     
         /*** Debug ***/
-        border: solid blue;
+        border: solid yellow;
     }
 
     div#project #content {
