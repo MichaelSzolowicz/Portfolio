@@ -38,7 +38,6 @@ div#project img {
 }
 
 div#project iframe {
-    max-width: 500px;
     box-sizing: border-box;
     padding: 20px;
     aspect-ratio: 16 / 9;
