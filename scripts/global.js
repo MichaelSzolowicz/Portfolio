@@ -11,6 +11,7 @@ screen.orientation.onchange = function() {
 onResize();
 
 function onResize() {
+    return;
     document.getElementById("project-padding").style.width = 0 +  "px";
 
     var viewportWidth = document.body.clientWidth;
