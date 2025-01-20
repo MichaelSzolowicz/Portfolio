@@ -2,9 +2,15 @@
 class Header extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
+        <style>
+        #header-logo {
+            max-width: 160px;
+            width: 100%;
+        }
+        </style>
         <header>
             <div>
-                <span><a href="index.html">Michael Szolowicz</a></span>
+                <a href="index.html"><img id="header-logo" src="images/global/logo.png" alt="Michael Szolowicz logo"></a>
             </div>
         </header>
         <span id="spacer" style="min-height: 70px;"></span>
