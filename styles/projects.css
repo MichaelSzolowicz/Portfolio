@@ -6,22 +6,30 @@ div#project {
     align-items: center;
     white-space: nowrap;
     margin: auto;
-    max-width: 1250px;
-    width: 70%;
+    max-width: 1500px;
+    width: 80%;
 
     min-height: 500px;
 
-    /*** Debug **
+    /*** Debug *
     border: solid blue;
     */
 }
 
-div#project #content {
+div#project .content {
     display: inline-block;
     white-space: wrap;
     width: 100%;
     max-width: 500px;
     max-height: 100%;
+}
+
+div#project .text-content {
+    max-width: 700px;
+}
+
+div#project #text-content {
+    max-width: 700px;
 }
 
 div#project span#project-padding {
@@ -41,6 +49,10 @@ div#project iframe {
     aspect-ratio: 16 / 9;
 }
 
+div#project li {
+    margin: .5em 0;
+}
+
 @media screen and (max-width: 1000px) {
     div#project {
         display: block;
@@ -48,7 +60,7 @@ div#project iframe {
         width: fit-content;
         white-space: nowrap;
 
-        max-width: 70%;
+        max-width: 80%;
         min-width: 300px;
         height: auto;
     
@@ -57,12 +69,23 @@ div#project iframe {
         */
     }
 
-    div#project #content {
+    div#project .content {
         display: inline-block;
+        max-width: 1000px;
         width: 100%;
         max-height: fit-content;
         white-space: wrap;
         text-align: center;
+    }
+
+    div#project .text-content {
+        max-width: 1000px;
+        width: 90%;
+
+    }
+
+    div#project li {
+        list-style-position: inside;
     }
 
     div#project span#project-padding {

@@ -26,7 +26,7 @@ class Footer extends HTMLElement {
             width: 100%;
             min-height: 100px;
 
-            background-color: lightgray;
+            background-color: darkgrey;
 
             display: flex;
             flex-direction: column;
