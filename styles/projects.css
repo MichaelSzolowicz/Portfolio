@@ -9,7 +9,7 @@ div#project {
     max-width: 1250px;
     width: 70%;
 
-    height: 500px;
+    min-height: 500px;
 
     /*** Debug **
     border: solid blue;
