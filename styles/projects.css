@@ -11,9 +11,9 @@ div#project {
 
     min-height: 500px;
 
-    /*** Debug *
+    /*** Debug */
     border: solid blue;
-    */
+    
 }
 
 div#project .content {
