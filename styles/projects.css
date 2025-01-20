@@ -57,7 +57,8 @@ div#project li {
     div#project {
         display: block;
         margin: auto;
-        width: fit-content;
+        /* width: fit-content;
+        */
         white-space: nowrap;
 
         max-width: 80%;
