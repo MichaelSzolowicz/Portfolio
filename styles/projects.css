@@ -83,7 +83,7 @@ div#project li {
     }
 
     div#project .text-content {
-        max-width: 100%;
+        width: 100%;
         margin: 20px;
     }
 
