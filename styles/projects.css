@@ -59,6 +59,11 @@ div.project li {
     margin: .5em 0;
 }
 
+div.project div.project-codebox {
+    min-width: 800px;
+    display: block;
+}
+
 @media screen and (max-width: 1000px) {
     div.project {
         display: block;
@@ -99,5 +104,9 @@ div.project li {
 
         width: 0%;
         padding-left:  0;
+    }
+
+    div.project div.project-codebox {
+        min-width: 100%;
     }
 }

@@ -41,6 +41,7 @@
 
         <span class="spacer"></span>
 
+        <!-- #region Character Controller -->
         <div class="project">
             <div class="project-content project-text-content">
                 <h2>Custom Character Controller</h2>
@@ -132,6 +133,243 @@
                 </p>
             </div>
         </div>
+        <!-- #endregion -->
+
+        <span class="spacer"></span>
+
+        <!-- #region Input Replay System -->
+        <div class="project">
+            <div class="project-content project-text-content">
+                <h2>Input Replay System</h2>
+                <h3>Motivation</h3>
+                <p>
+                    The Ghost Replay system is designed to capture input, dispatch input back to actors, and serialize
+                    captured input for later use.
+                </p>
+                <p>
+                    One application of the Ghost Replay system is checking the stability of the physics integrator
+                    across different frame rates. The lossy nature of integration can cause imbalance, namely the ball
+                    being able to roll uphill at lower framerates but not higher framerates. The system should be able
+                    to capture and replay directional input so developers can check if the integrator is producing
+                    reasonably similar results at different frame rates. The integration will never be exact because of
+                    the varying timestep, but it should be close enough as to not create imbalances like the one
+                    described above.
+                </p>
+                <p>
+                    Future applications include kill cams or “play of the game” style match highlights. These features
+                    are not yet fully supported, but the ghost replay system is designed to be flexible enough to
+                    accommodate production ready features of similar ilk.
+                </p>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <h3>Implementation</h3>
+            </div>
+        </div>
+
+        <div class="project" style="max-height: min-content;">
+            <div class="project-content project-text-content" style="align-self:self-start;">
+                <p>
+                    The backbone of this implementation is the UGhostRecorderLevelSubsystem. On initialization this
+                    subsystem will use UGhostReplayConsoleParser’s static function to check for console commands to
+                    record or replay input. If the console is set to replay, it will load an input replay file using
+                    StartReplay() before initialization is complete. Otherwise the StartRecording() and StartReplay()
+                    functions can be used to set its behavior after initialization.
+                </p>
+            </div>
+
+            <span class="project-padding"></span>
+
+            <div class="project-content project-codebox">
+                <div class="codebox">
+<pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">UGhostRecorderWorldSubsystem</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Initialize</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">FSubsystemCollectionBase</span><span style="color:#b4b4b4;">&amp;</span>&nbsp;<span style="color:#9a9a9a;">Collection</span><span style="color:#b4b4b4;">)</span>
+<span style="color:#b4b4b4;">{</span>
+    <span style="color:#4ec9b0;">Super</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Initialize</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Collection</span><span style="color:#b4b4b4;">);</span>
+
+    <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">UGhostReplayConsoleParser</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">GetGhostReplayBehavior</span><span style="color:#b4b4b4;">(</span><span style="color:#dadada;">GhostReplayBehavior</span><span style="color:#b4b4b4;">))</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+        <span style="color:#dadada;">bHasConsoleCommand</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#569cd6;">true</span><span style="color:#b4b4b4;">;</span>
+
+        <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#dadada;">GhostReplayBehavior</span>&nbsp;<span style="color:#b4b4b4;">==</span>&nbsp;<span style="color:#4ec9b0;">EGhostReplayBehavior</span><span style="color:#b4b4b4;">::</span><span style="color:#b8d7a3;">Record</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+            <span style="color:#dcdcaa;">StartRecording</span><span style="color:#b4b4b4;">();</span>
+        <span style="color:#b4b4b4;">}</span>
+        <span style="color:#d8a0df;">else</span>&nbsp;<span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#dadada;">GhostReplayBehavior</span>&nbsp;<span style="color:#b4b4b4;">==</span>&nbsp;<span style="color:#4ec9b0;">EGhostReplayBehavior</span><span style="color:#b4b4b4;">::</span><span style="color:#b8d7a3;">Replay</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+            <span style="color:#dcdcaa;">StartReplay</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">UGhostReplayConsoleParser</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">GetDefaultReplayFilePath</span><span style="color:#b4b4b4;">());</span>
+        <span style="color:#b4b4b4;">}</span>
+
+        <span style="color:#beb7ff;">UE_LOG</span><span style="color:#b4b4b4;">(</span><span style="color:#c8c8c8;">GhostRecorderWorldSubsystem</span><span style="color:#b4b4b4;">,</span>&nbsp;Log<span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#beb7ff;">TEXT</span><span style="color:#b4b4b4;">(</span><span style="color:#e8c9bb;">&quot;</span><span style="color:#d69d85;">Ghost&nbsp;Data&nbsp;Behavior:&nbsp;%s</span><span style="color:#e8c9bb;">&quot;</span><span style="color:#b4b4b4;">),</span>&nbsp;<span style="color:#b4b4b4;">*</span><span style="color:#4ec9b0;">UEnum</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">GetValueAsString</span><span style="color:#b4b4b4;">(</span><span style="color:#dadada;">GhostReplayBehavior</span><span style="color:#b4b4b4;">));</span>
+        <span style="color:#beb7ff;">UE_LOG</span><span style="color:#b4b4b4;">(</span><span style="color:#c8c8c8;">GhostRecorderWorldSubsystem</span><span style="color:#b4b4b4;">,</span>&nbsp;Log<span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#beb7ff;">TEXT</span><span style="color:#b4b4b4;">(</span><span style="color:#e8c9bb;">&quot;</span><span style="color:#d69d85;">Ghost&nbsp;Replay&nbsp;File:&nbsp;%s</span><span style="color:#e8c9bb;">&quot;</span><span style="color:#b4b4b4;">),</span>&nbsp;<span style="color:#b4b4b4;">*</span><span style="color:#4ec9b0;">UGhostReplayConsoleParser</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">GetDefaultReplayFilePath</span><span style="color:#b4b4b4;">());</span>
+    <span style="color:#b4b4b4;">}</span>
+<span style="color:#b4b4b4;">}</span></pre>
+                </div>
+                <figcaption>Ghost Record Level Subsystem Initialize function.</figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="project">
+            <div class="project-content project-text-content" style="align-self:self-start;">
+                <p>
+                    To record input, Actors must manually access UGhostRecorderLevelSubsystem and call the GetNextInputCaptureSlot()
+                    function. GetNextInputCaptureSlot() returns a pointer to a FGhostReplayInput struct so that captured input can
+                    be copied
+                    directly into its final destination, rather than being passed to the function first. The actor ID, name of the
+                    input,
+                    and value of the input should be copied to the FGhostReplayInput struct.
+                </p>
+            </div>
+
+            <span class="project-padding"></span>
+
+            <div class="project-content project-codebox">
+                <div class="codebox">
+<pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#57a64a;">/**</span>
+<span style="color:#57a64a;">*&nbsp;Apply&nbsp;force&nbsp;directly&nbsp;to&nbsp;player&nbsp;via&nbsp;network&nbsp;physics&nbsp;component.</span>
+<span style="color:#57a64a;">*/</span>
+<span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">APinballPlayer</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Push</span><span style="color:#b4b4b4;">(</span><span style="color:#569cd6;">const</span>&nbsp;<span style="color:#4ec9b0;">FInputActionValue</span><span style="color:#b4b4b4;">&amp;</span>&nbsp;<span style="color:#9a9a9a;">Value</span><span style="color:#b4b4b4;">)</span>
+<span style="color:#b4b4b4;">{</span>
+    <span style="color:#4ec9b0;">FVector2D</span>&nbsp;<span style="color:#9cdcfe;">Input</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Value</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Get</span><span style="color:#b4b4b4;">&lt;</span><span style="color:#4ec9b0;">FVector2D</span><span style="color:#b4b4b4;">&gt;();</span>
+    <span style="color:#57a64a;">//UE_LOG(LogTemp,&nbsp;Warning,&nbsp;TEXT(&quot;Input&nbsp;push:&nbsp;%s&quot;),&nbsp;*Input.ToString());</span>
+    
+    <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#dadada;">GhostReplayBehvaior</span>&nbsp;<span style="color:#b4b4b4;">==</span>&nbsp;<span style="color:#4ec9b0;">EGhostReplayBehavior</span><span style="color:#b4b4b4;">::</span><span style="color:#b8d7a3;">RecordPush</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+        <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#dcdcaa;">IsValid</span><span style="color:#b4b4b4;">(</span><span style="color:#dadada;">GhostRecorder</span><span style="color:#b4b4b4;">))</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+            <span style="color:#4ec9b0;">FGhostReplayInput</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">GhostReplayInput</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dadada;">GhostRecorder</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetNextInputCaptureSlot</span><span style="color:#b4b4b4;">();</span>
+            <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">GhostReplayInput</span>&nbsp;<span style="color:#b4b4b4;">!=</span>&nbsp;<span style="color:#569cd6;">nullptr</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+                <span style="color:#9cdcfe;">GhostReplayInput</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dadada;">ActorID</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dcdcaa;">GetName</span><span style="color:#b4b4b4;">();</span>
+                <span style="color:#9cdcfe;">GhostReplayInput</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dadada;">ActionName</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#beb7ff;">TEXT</span><span style="color:#b4b4b4;">(</span><span style="color:#e8c9bb;">&quot;</span><span style="color:#d69d85;">Push</span><span style="color:#e8c9bb;">&quot;</span><span style="color:#b4b4b4;">);</span>
+                <span style="color:#9cdcfe;">GhostReplayInput</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">At</span><span style="color:#b4b4b4;">(</span><span style="color:#b5cea8;">0</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">Input</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">X</span><span style="color:#b4b4b4;">;</span>
+                <span style="color:#9cdcfe;">GhostReplayInput</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">At</span><span style="color:#b4b4b4;">(</span><span style="color:#b5cea8;">1</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">Input</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Y</span><span style="color:#b4b4b4;">;</span>
+            <span style="color:#b4b4b4;">}</span>
+        <span style="color:#b4b4b4;">}</span>
+    <span style="color:#b4b4b4;">}</span>
+    
+    <span style="color:#dadada;">NetworkPhysics</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">SetInput</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Input</span><span style="color:#b4b4b4;">);</span>
+<span style="color:#b4b4b4;">}</span></pre>
+                </div>
+                <figcaption>Pinball pawn saving an input via the ghost recorder.</figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="project">
+            <div class="project-content project-text-content" style="align-self:self-start;">
+                <p>
+                    To replay input, actors should use the UGhostReplayController component for convenience sake. Create the controller
+                    component, then use the GetGhostInputActionReference() function to bind functions to named inputs. The input name
+                    provided to GetGhostInputActionReference() should be the same name used when recording the corresponding input.
+                </p>
+            </div>
+        
+            <span class="project-padding"></span>
+        
+            <div class="project-content project-codebox">
+                <div class="codebox">
+<pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#4ec9b0;">FGhostInputAction</span><span style="color:#b4b4b4;">&amp;</span>&nbsp;<span style="color:#4ec9b0;">UGhostController</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">GetGhostInputActionReference</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">FString</span>&nbsp;<span style="color:#9a9a9a;">ActionName</span><span style="color:#b4b4b4;">)</span>
+<span style="color:#b4b4b4;">{</span>
+	<span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(!</span><span style="color:#dadada;">GhostInputActions</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Contains</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">ActionName</span><span style="color:#b4b4b4;">))</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+		<span style="color:#dadada;">GhostInputActions</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Add</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">ActionName</span><span style="color:#b4b4b4;">);</span>
+	<span style="color:#b4b4b4;">}</span>
+ 
+	<span style="color:#d8a0df;">return</span>&nbsp;<span style="color:#dadada;">GhostInputActions</span><span style="color:#b4b4b4;">[</span><span style="color:#9a9a9a;">ActionName</span><span style="color:#b4b4b4;">]</span><span style="color:#b4b4b4;">;</span>
+<span style="color:#b4b4b4;">}</span></pre>
+                </div>
+                <figcaption>Pinball pawn saving an input via the ghost recorder.</figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+        
+        <div class="project">
+            <div class="project-content project-text-content" style="align-self:self-start;">
+                <p>
+                    Lastly, if UGhostRecorderLevelSubsystem is set to replay, the Tick function will go through captured input in order and
+                    broadcast it via the delegate. UGhostReplayController components are already set up to listen for this delegate. Using
+                    GetGhostInputActionReference() you can add further delegates to the map. UGhostReplayController will then check if
+                    dispatched input is for its owning actor, and if the captured input name corresponds to a delegate in its map, before
+                    calling that delegate.
+                </p>
+            </div>
+        
+            <span class="project-padding"></span>
+        
+            <div class="project-content project-codebox">
+                <div class="codebox">
+<pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">UGhostRecorderWorldSubsystem</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Tick</span><span style="color:#b4b4b4;">(</span><span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9a9a9a;">DeltaTime</span><span style="color:#b4b4b4;">)</span>
+<span style="color:#b4b4b4;">{</span>
+	<span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#dadada;">GhostReplayBehavior</span>&nbsp;<span style="color:#b4b4b4;">!=</span>&nbsp;<span style="color:#4ec9b0;">EGhostReplayBehavior</span><span style="color:#b4b4b4;">::</span><span style="color:#b8d7a3;">Replay</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+		<span style="color:#d8a0df;">return</span><span style="color:#b4b4b4;">;</span>
+	<span style="color:#b4b4b4;">}</span>
+ 
+	<span style="color:#dadada;">ReplayParameters</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">ElapsedTimeSeconds</span>&nbsp;<span style="color:#b4b4b4;">+=</span>&nbsp;<span style="color:#9a9a9a;">DeltaTime</span><span style="color:#b4b4b4;">;</span>
+ 
+	<span style="color:#d8a0df;">while</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#dadada;">ReplayParameters</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">NextIndex</span>&nbsp;<span style="color:#b4b4b4;">&lt;</span>&nbsp;<span style="color:#dadada;">GhostReplayData</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">TimestampsCount</span>&nbsp;<span style="color:#b4b4b4;">&amp;&amp;</span>&nbsp;
+		<span style="color:#dadada;">GhostReplayData</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">CapturedData</span><span style="color:#b4b4b4;">[</span><span style="color:#dadada;">ReplayParameters</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">NextIndex</span><span style="color:#b4b4b4;">]</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Timestamp</span>&nbsp;<span style="color:#b4b4b4;">&lt;=</span>&nbsp;<span style="color:#dadada;">ReplayParameters</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">ElapsedTimeSeconds</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+ 
+		<span style="color:#4ec9b0;">FGhostReplayTimestamp</span>&nbsp;<span style="color:#9cdcfe;">GhostReplayTimestamp</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dadada;">GhostReplayData</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">CapturedData</span><span style="color:#b4b4b4;">[</span><span style="color:#dadada;">ReplayParameters</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">NextIndex</span><span style="color:#b4b4b4;">]</span><span style="color:#b4b4b4;">;</span>
+		<span style="color:#dadada;">ReplayParameters</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">NextIndex</span><span style="color:#b4b4b4;">++;</span>
+		
+		<span style="color:#d8a0df;">for</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#569cd6;">int</span>&nbsp;<span style="color:#9cdcfe;">CapturedInputIndex</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b5cea8;">0</span><span style="color:#b4b4b4;">;</span>&nbsp;<span style="color:#9cdcfe;">CapturedInputIndex</span>&nbsp;<span style="color:#b4b4b4;">&lt;</span>&nbsp;<span style="color:#9cdcfe;">GhostReplayTimestamp</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">CapturedInputCount</span><span style="color:#b4b4b4;">;</span>&nbsp;<span style="color:#9cdcfe;">CapturedInputIndex</span><span style="color:#b4b4b4;">++)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+			<span style="color:#4ec9b0;">FGhostReplayInput</span>&nbsp;<span style="color:#9cdcfe;">CapturedInput</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">GhostReplayTimestamp</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">CapturedInput</span><span style="color:#b4b4b4;">[</span><span style="color:#9cdcfe;">CapturedInputIndex</span><span style="color:#b4b4b4;">]</span><span style="color:#b4b4b4;">;</span>
+ 
+			<span style="color:#dadada;">ReplayInputDispatcher</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Broadcast</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">CapturedInput</span><span style="color:#b4b4b4;">);</span>
+		<span style="color:#b4b4b4;">}</span>
+	<span style="color:#b4b4b4;">}</span>
+<span style="color:#b4b4b4;">}</span></pre>
+                </div>
+                <figcaption>Pinball pawn saving an input via the ghost recorder.</figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <h3>Limitations</h3>
+                <p>
+                    A maximum of 5 floats can be used to capture input data. This number is defined in the GHOST_REPLAY_INPUT_SIZE macro.
+                    Limiting captured input to a fixed type and size makes it easier to allocate space for, serialize, and deserialize input
+                    data. The drawback is that the actors saving or receiving replay data must convert data to and from the proper format. I
+                    decided this was acceptable because (a) there will be a limited number of actors which actually need to save input in
+                    this game and (b) the work required to save a replay input on the actor side is not very time consuming, even though it
+                    is not ideal for maintainability.
+                </p>
+                <p>
+                    UGhostRecorderLevelSubsytem is implemented as a level system, meaning it will lose recorded data when a new level is
+                    loaded unless the data is serialized first. In the future this behavior might be altered by changing it to a game
+                    subsystem, but this might interfere with the use of Tick to dispatch replay data. In this case a separate actor or
+                    subsystem may be created for the explicit purpose of replaying input.
+                </p>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+                
+        <div class="project">
+            <div class="project-content project-text-content">
+                <h3>Future Work</h3>
+                <p>
+                    Right now UGhostRecorderLevelSubsystem will always allocate more memory if it runs out of slots to store new input in.
+                    In order to ship this project, the system should use a fixed memory footprint and wrap around, deleting old data in the
+                    process, if it runs out of space.
+                </p>
+                <p>
+                    In order to implement highlights without replaying input from the start of the match onwards, the starting state of each
+                    recorded actor will need to be saved as well. It would be inefficient to do this every frame, so a separate system will
+                    probably be created to capture this data every ½ or even full second.
+                </p>
+                <p>
+                    To fully support match highlights, a new controller will need to be created for this explicit purpose. It will need to
+                    weigh what parts of the match are most interesting, and manipulate UGhostRecorderLevelSubsystem to not overwrite data it
+                    has deemed a “highlight.”
+                </p>
+            </div>
+        </div>
+        <!-- #endregion -->
+
+        <span class="spacer"></span>
     </main>
 
     <footer-element></footer-element>

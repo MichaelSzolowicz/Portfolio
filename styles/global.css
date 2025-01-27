@@ -40,3 +40,11 @@ span.spacer {
     display: block;
     min-height: 50px;
 }
+
+div.codebox {
+    overflow: scroll;
+    background: #1e1e1e;
+    padding: 20px;
+    display: block;
+    text-align: left;
+}
