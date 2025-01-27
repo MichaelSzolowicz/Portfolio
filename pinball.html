@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="eng-US">
+
+<head>
+    <title>Michael Szolowicz- Pinball Shooter</title>
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/projects.css">
+    <script src="elements/header.js" type="text/javascript" defer></script>
+    <script src="elements/footer.js" type="text/javascript" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        div.project {
+            min-height: auto;
+        }
+
+        div.project .project-text-content {
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header-element></header-element>
+
+    <main>
+        <span class="spacer"></span>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <h2>About</h2>
+                <p>
+                    All programming for this project was done by myself. I have used it to explore various concepts at
+                    my own pace. However, given the time I would like to polish it into a publishable product. My custom
+                    character controller implements physically accurate collision response and client side prediction
+                    based networking. I paired that controller with context steering driven AI enemies. Also described
+                    here is my input replay system, inspired by first person shooters and racing games.
+                </p>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <h2>Custom Character Controller</h2>
+                <h3>Motivation</h3>
+                <p>
+                    My custom pinball character controller is designed to replace Unreal Engine’s built in
+                    UCharacterMovementComponent. The motivation for a custom character controller was to model movement
+                    after real world physics. I would like to support online multiplayer eventually, so I chose to
+                    create my own solution with support for client side prediction instead of using a physics engine.
+                </p>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <h3>Implementation</h3>
+                <p>
+                    I defined basic features in the UNetworkedPhysics component, which inherits from UMovementComponent.
+                    UNetworkedPhysics is closely modeled after Unreal Engine’s UCharacterMovementComponent class. The
+                    client moves locally, submits the move to the server, which evaluates the move before submitting
+                    either a correction or approval.
+                </p>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <p>
+                    On the client, the TickComponent() function kicks things off by calling the UpdatePhysics()
+                    function, which constructs a move. Moves are represented by my own FMove struct. PerformMove() is
+                    then called, taking FMinimalMove as an argument. The difference between FMove and FMinimalMove is
+                    that FMove contains data needed to verify a move, while FMinimalMove only contains data needed to
+                    perform a move.
+                </p>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <p>
+                    PerformMove() integrates applied forces over the time since the last move. Before updating the
+                    Actor’s position, it queries the environment for collisions. I resolve collisions in the constructor
+                    logic for the FNetPhysCollisionResolution struct. The constructor takes in the
+                    UNetworkedPhysicsComponents involved, hit result, and current velocity then calculates linear and
+                    angular impulse which are stored in the resulting struct. The UNetworkedPhysicsComponent that
+                    originally attempted the move applies these impulses to itself using the
+                    ResolveCollisionWithRotation() function.
+                </p>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <p>
+                    An important distinguishing factor of my character controller is that it can push and be pushed by
+                    other networked physics components in a physically accurate manner. If the collision query finds
+                    another UNetworkedPhysics component, it will use FNetPhysCollisionResolution’s Inverse() function to
+                    get the inverse collision response and apply it directly to the other UNetworkedPhysics component
+                    involved in the collision.
+                </p>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <p>
+                    After resolving collisions, PerformMove() physically updates the controlled component’s location.
+                </p>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <p>
+                    After the move is performed locally, the client stores its final position in the FMove struct and
+                    submits it to the server. Server side PerformMove() is called again, and the final position is
+                    checked against the final position submitted by the client. If they are within a very small
+                    threshold the move is approved, otherwise the server sends a correction back to the client.
+                </p>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-content project-text-content">
+                <p>
+                    When the client receives a correction, it removes every move prior to the correction in
+                    MovesPendingValidation. It then sets its position and velocity to the correction, and re-simulates
+                    the remaining moves in MovesPendingValidation.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer-element></footer-element>
+</body>
+
+</html>
