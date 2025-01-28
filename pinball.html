@@ -4,20 +4,9 @@
 <head>
     <title>Michael Szolowicz- Pinball Shooter</title>
     <link rel="stylesheet" href="styles/global.css">
-    <link rel="stylesheet" href="styles/projects.css">
     <script src="elements/header.js" type="text/javascript" defer></script>
     <script src="elements/footer.js" type="text/javascript" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <style>
-        div.project {
-            min-height: auto;
-        }
-
-        div.project .project-text-content {
-            max-width: 100%;
-        }
-    </style>
 </head>
 
 <body>
@@ -26,8 +15,8 @@
     <main>
         <span class="spacer"></span>
 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection learn-more">
                 <h2>About</h2>
                 <p>
                     All programming for this project was done by myself. I have used it to explore various concepts at
@@ -42,8 +31,8 @@
         <span class="spacer"></span>
 
         <!-- #region Character Controller -->
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection learn-more">
                 <h2>Custom Character Controller</h2>
                 <h3>Motivation</h3>
                 <p>
@@ -55,8 +44,10 @@
             </div>
         </div>
 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection learn-more">
                 <h3>Implementation</h3>
                 <p>
                     I defined basic features in the UNetworkedPhysics component, which inherits from UMovementComponent.
@@ -67,8 +58,8 @@
             </div>
         </div>
 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection learn-more">
                 <p>
                     On the client, the TickComponent() function kicks things off by calling the UpdatePhysics()
                     function, which constructs a move. Moves are represented by my own FMove struct. PerformMove() is
@@ -79,8 +70,8 @@
             </div>
         </div>
 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection learn-more">
                 <p>
                     PerformMove() integrates applied forces over the time since the last move. Before updating the
                     Actor’s position, it queries the environment for collisions. I resolve collisions in the constructor
@@ -93,8 +84,8 @@
             </div>
         </div>
 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection learn-more">
                 <p>
                     An important distinguishing factor of my character controller is that it can push and be pushed by
                     other networked physics components in a physically accurate manner. If the collision query finds
@@ -105,16 +96,16 @@
             </div>
         </div>
 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection learn-more">
                 <p>
                     After resolving collisions, PerformMove() physically updates the controlled component’s location.
                 </p>
             </div>
         </div>
 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection learn-more">
                 <p>
                     After the move is performed locally, the client stores its final position in the FMove struct and
                     submits it to the server. Server side PerformMove() is called again, and the final position is
@@ -124,8 +115,8 @@
             </div>
         </div>
 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection learn-more">
                 <p>
                     When the client receives a correction, it removes every move prior to the correction in
                     MovesPendingValidation. It then sets its position and velocity to the correction, and re-simulates
@@ -138,8 +129,8 @@
         <span class="spacer"></span>
 
         <!-- #region Input Replay System -->
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection">
                 <h2>Input Replay System</h2>
                 <h3>Motivation</h3>
                 <p>
@@ -163,14 +154,16 @@
             </div>
         </div>
 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection">
                 <h3>Implementation</h3>
             </div>
         </div>
 
-        <div class="project" style="max-height: min-content;">
-            <div class="project-content project-text-content" style="align-self:self-start;">
+        <div class="section">
+            <div class="subsection learn-more thin">
                 <p>
                     The backbone of this implementation is the UGhostRecorderLevelSubsystem. On initialization this
                     subsystem will use UGhostReplayConsoleParser’s static function to check for console commands to
@@ -180,9 +173,9 @@
                 </p>
             </div>
 
-            <span class="project-padding"></span>
+            <span class="spacer short horizontal"></span>
 
-            <div class="project-content project-codebox">
+            <div class="subsection">
                 <div class="codebox">
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">UGhostRecorderWorldSubsystem</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Initialize</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">FSubsystemCollectionBase</span><span style="color:#b4b4b4;">&amp;</span>&nbsp;<span style="color:#9a9a9a;">Collection</span><span style="color:#b4b4b4;">)</span>
 <span style="color:#b4b4b4;">{</span>
@@ -209,8 +202,8 @@
 
         <span class="spacer"></span>
 
-        <div class="project">
-            <div class="project-content project-text-content" style="align-self:self-start;">
+        <div class="section">
+            <div class="subsection learn-more thin">
                 <p>
                     To record input, Actors must manually access UGhostRecorderLevelSubsystem and call the GetNextInputCaptureSlot()
                     function. GetNextInputCaptureSlot() returns a pointer to a FGhostReplayInput struct so that captured input can
@@ -221,9 +214,9 @@
                 </p>
             </div>
 
-            <span class="project-padding"></span>
+            <span class="spacer short horizontal"></span>
 
-            <div class="project-content project-codebox">
+            <div class="subsection">
                 <div class="codebox">
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#57a64a;">/**</span>
 <span style="color:#57a64a;">*&nbsp;Apply&nbsp;force&nbsp;directly&nbsp;to&nbsp;player&nbsp;via&nbsp;network&nbsp;physics&nbsp;component.</span>
@@ -254,8 +247,8 @@
 
         <span class="spacer"></span>
 
-        <div class="project">
-            <div class="project-content project-text-content" style="align-self:self-start;">
+        <div class="section">
+            <div class="subsection learn-more thin">
                 <p>
                     To replay input, actors should use the UGhostReplayController component for convenience sake. Create the controller
                     component, then use the GetGhostInputActionReference() function to bind functions to named inputs. The input name
@@ -263,9 +256,9 @@
                 </p>
             </div>
         
-            <span class="project-padding"></span>
+            <span class="spacer short horizontal"></span>
         
-            <div class="project-content project-codebox">
+            <div class="subsection">
                 <div class="codebox">
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#4ec9b0;">FGhostInputAction</span><span style="color:#b4b4b4;">&amp;</span>&nbsp;<span style="color:#4ec9b0;">UGhostController</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">GetGhostInputActionReference</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">FString</span>&nbsp;<span style="color:#9a9a9a;">ActionName</span><span style="color:#b4b4b4;">)</span>
 <span style="color:#b4b4b4;">{</span>
@@ -282,8 +275,8 @@
 
         <span class="spacer"></span>
         
-        <div class="project">
-            <div class="project-content project-text-content" style="align-self:self-start;">
+        <div class="section">
+            <div class="subsection learn-more thin">
                 <p>
                     Lastly, if UGhostRecorderLevelSubsystem is set to replay, the Tick function will go through captured input in order and
                     broadcast it via the delegate. UGhostReplayController components are already set up to listen for this delegate. Using
@@ -293,9 +286,9 @@
                 </p>
             </div>
         
-            <span class="project-padding"></span>
+            <span class="spacer short horizontal"></span>
         
-            <div class="project-content project-codebox">
+            <div class="subsection">
                 <div class="codebox">
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">UGhostRecorderWorldSubsystem</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Tick</span><span style="color:#b4b4b4;">(</span><span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9a9a9a;">DeltaTime</span><span style="color:#b4b4b4;">)</span>
 <span style="color:#b4b4b4;">{</span>
@@ -325,8 +318,8 @@
 
         <span class="spacer"></span>
 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection learn-more">
                 <h3>Limitations</h3>
                 <p>
                     A maximum of 5 floats can be used to capture input data. This number is defined in the GHOST_REPLAY_INPUT_SIZE macro.
@@ -347,8 +340,8 @@
 
         <span class="spacer"></span>
                 
-        <div class="project">
-            <div class="project-content project-text-content">
+        <div class="section">
+            <div class="subsection learn-more">
                 <h3>Future Work</h3>
                 <p>
                     Right now UGhostRecorderLevelSubsystem will always allocate more memory if it runs out of slots to store new input in.
