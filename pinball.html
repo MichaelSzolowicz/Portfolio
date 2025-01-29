@@ -2,7 +2,7 @@
 <html lang="eng-US">
 
 <head>
-    <title>Michael Szolowicz- Pinball Shooter</title>
+    <title>Michael Szolowicz - Pinball Shooter</title>
     <link rel="stylesheet" href="styles/global.css">
     <script src="elements/header.js" type="text/javascript" defer></script>
     <script src="elements/footer.js" type="text/javascript" defer></script>
@@ -70,8 +70,10 @@
             </div>
         </div>
 
+        <span class="spacer"></span>
+
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection learn-more thin">
                 <p>
                     PerformMove() integrates applied forces over the time since the last move. Before updating the
                     Actor’s position, it queries the environment for collisions. I resolve collisions in the constructor
@@ -82,10 +84,93 @@
                     ResolveCollisionWithRotation() function.
                 </p>
             </div>
+
+            <span class="spacer horizontal short"></span>
+
+            <div class="subsection">
+                <div class="codebox" style="max-height: 300px;">
+                    <!-- #region Preformatted Text -->
+<pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#4ec9b0;">FNetPhysCollisionResolution</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">FNetPhysCollisionResolution</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">UNetworkedPhysics</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9a9a9a;">Self</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#4ec9b0;">UNetworkedPhysics</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#4ec9b0;">FHitResult</span>&nbsp;<span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9a9a9a;">LinearVelocity</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9a9a9a;">AngularVelocity</span><span style="color:#b4b4b4;">)</span>
+<span style="color:#b4b4b4;">{</span>
+    <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">Location</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Self</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dadada;">UpdatedComponent</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetComponentLocation</span><span style="color:#b4b4b4;">();</span>
+    <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">InverseMass</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Self</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">InverseMass</span><span style="color:#b4b4b4;">();</span>
+    <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">InverseInertia</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Self</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">InverseInertia</span><span style="color:#b4b4b4;">();</span>
+    <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">Restitution</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Self</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetRestitution</span><span style="color:#b4b4b4;">();</span>
+    <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">FrictionConstant</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Self</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetFrictionConstant</span><span style="color:#b4b4b4;">();</span>
+    
+    <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">RVector</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">ImpactPoint</span>&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">TraceStart</span>&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Time</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">TraceEnd</span>&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;<span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">TraceStart</span><span style="color:#b4b4b4;">)));</span>
+    <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">RelativeVelocity</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">LinearVelocity</span>&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;<span style="color:#9a9a9a;">AngularVelocity</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">RVector</span><span style="color:#b4b4b4;">);</span>
+    
+    <span style="color:#569cd6;">bool</span>&nbsp;<span style="color:#9cdcfe;">bHasOther</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dcdcaa;">IsValid</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">);</span>
+    <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">SumInvMass</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">InverseMass</span><span style="color:#b4b4b4;">;</span>
+    <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">MinRestitution</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">Restitution</span><span style="color:#b4b4b4;">;</span>
+    
+    <span style="color:#57a64a;">/*&nbsp;Normal&nbsp;Impulse&nbsp;calculation&nbsp;*/</span>
+    <span style="color:#b4b4b4;">{</span>
+        <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">NormalImpulse</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">FVector</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Zero</span><span style="color:#b4b4b4;">();</span>
+    
+        <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">J1</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">InverseInertia</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">RVector</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Normal</span><span style="color:#b4b4b4;">)).</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">RVector</span><span style="color:#b4b4b4;">);</span>
+        <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">J2</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">FVector</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Zero</span><span style="color:#b4b4b4;">();</span>
+    
+        <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">bHasOther</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+            <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">OtherLinearVelocity</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetLinearVelocity</span><span style="color:#b4b4b4;">();</span>
+            <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">OtherAngularVelocity</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetAngularVelocity</span><span style="color:#b4b4b4;">();</span>
+            <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">OtherRVector</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetRVectorAtPoint</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">ImpactPoint</span><span style="color:#b4b4b4;">);</span>
+            <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">OtherInvInertia</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">InverseInertia</span><span style="color:#b4b4b4;">();</span>
+            <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">OtherInvMass</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">InverseMass</span><span style="color:#b4b4b4;">();</span>
+    
+            <span style="color:#9cdcfe;">J2</span>&nbsp;<span style="color:#b4b4b4;">+=</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">OtherInvInertia</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">OtherRVector</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Normal</span><span style="color:#b4b4b4;">)).</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">OtherRVector</span><span style="color:#b4b4b4;">);</span>
+            <span style="color:#9cdcfe;">RelativeVelocity</span>&nbsp;<span style="color:#b4b4b4;">-=</span>&nbsp;<span style="color:#9cdcfe;">OtherLinearVelocity</span>&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;<span style="color:#9cdcfe;">OtherAngularVelocity</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">OtherRVector</span><span style="color:#b4b4b4;">);</span>
+            <span style="color:#9cdcfe;">SumInvMass</span>&nbsp;<span style="color:#b4b4b4;">+=</span>&nbsp;<span style="color:#9cdcfe;">OtherInvMass</span><span style="color:#b4b4b4;">;</span>
+            <span style="color:#9cdcfe;">MinRestitution</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">FMath</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Min</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">MinRestitution</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetRestitution</span><span style="color:#b4b4b4;">());</span>
+        <span style="color:#b4b4b4;">}</span>
+    
+        <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">J</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Normal</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Dot</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Normal</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">SumInvMass</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">J1</span>&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;<span style="color:#9cdcfe;">J2</span><span style="color:#b4b4b4;">).</span><span style="color:#dcdcaa;">Dot</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Normal</span><span style="color:#b4b4b4;">);</span>
+    
+        <span style="color:#9cdcfe;">J</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">RelativeVelocity</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Dot</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Normal</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#b4b4b4;">-(</span><span style="color:#b5cea8;">1</span>&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;<span style="color:#9cdcfe;">MinRestitution</span><span style="color:#b4b4b4;">))</span>&nbsp;<span style="color:#b4b4b4;">/</span>&nbsp;<span style="color:#9cdcfe;">J</span><span style="color:#b4b4b4;">;</span>
+    
+        <span style="color:#9cdcfe;">NormalImpulse</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">J</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Normal</span><span style="color:#b4b4b4;">;</span>
+        <span style="color:#dadada;">LinearImpulse</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">NormalImpulse</span><span style="color:#b4b4b4;">;</span>
+        <span style="color:#dadada;">AngularImpulse</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">RVector</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">NormalImpulse</span><span style="color:#b4b4b4;">);</span>
+    <span style="color:#b4b4b4;">}</span>
+    
+    <span style="color:#57a64a;">/*&nbsp;Friction&nbsp;Impulse&nbsp;Calculation&nbsp;*/</span>
+    <span style="color:#b4b4b4;">{</span>
+        <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">Tangent</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">LinearVelocity</span>&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;<span style="color:#9a9a9a;">LinearVelocity</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Dot</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Normal</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Normal</span><span style="color:#b4b4b4;">;</span>
+    
+        <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Tangent</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Size</span><span style="color:#b4b4b4;">()</span>&nbsp;<span style="color:#b4b4b4;">&lt;</span>&nbsp;<span style="color:#b5cea8;">.01f</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#d8a0df;">return</span><span style="color:#b4b4b4;">;</span>
+        <span style="color:#d8a0df;">else</span>&nbsp;<span style="color:#9cdcfe;">Tangent</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Normalize</span><span style="color:#b4b4b4;">();</span>
+    
+        <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">J1</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">InverseInertia</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">RVector</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Tangent</span><span style="color:#b4b4b4;">)).</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">RVector</span><span style="color:#b4b4b4;">);</span>
+        <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">J2</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">FVector</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Zero</span><span style="color:#b4b4b4;">();</span>
+    
+        <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">bHasOther</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+            <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">OtherRVector</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetRVectorAtPoint</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">ImpactPoint</span><span style="color:#b4b4b4;">);</span>
+            <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">OtherInvInertia</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">InverseInertia</span><span style="color:#b4b4b4;">();</span>
+    
+            <span style="color:#9cdcfe;">J2</span>&nbsp;<span style="color:#b4b4b4;">+=</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">OtherInvInertia</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">OtherRVector</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Tangent</span><span style="color:#b4b4b4;">)).</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">OtherRVector</span><span style="color:#b4b4b4;">);</span>
+        <span style="color:#b4b4b4;">}</span>
+    
+        <span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">J</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Tangent</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Dot</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Tangent</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">SumInvMass</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">J1</span>&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;<span style="color:#9cdcfe;">J2</span><span style="color:#b4b4b4;">).</span><span style="color:#dcdcaa;">Dot</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Tangent</span><span style="color:#b4b4b4;">);</span>
+        <span style="color:#9cdcfe;">J</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">RelativeVelocity</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Dot</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Tangent</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#b4b4b4;">-(</span><span style="color:#b5cea8;">1</span>&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;<span style="color:#9cdcfe;">MinRestitution</span><span style="color:#b4b4b4;">))</span>&nbsp;<span style="color:#b4b4b4;">/</span>&nbsp;<span style="color:#9cdcfe;">J</span><span style="color:#b4b4b4;">;</span>
+    
+        <span style="color:#9cdcfe;">J</span>&nbsp;<span style="color:#b4b4b4;">*=</span>&nbsp;<span style="color:#9cdcfe;">FrictionConstant</span><span style="color:#b4b4b4;">;</span>
+    
+        <span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9cdcfe;">FrictionImpulse</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">J</span>&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">Tangent</span><span style="color:#b4b4b4;">;</span>
+        <span style="color:#dadada;">LinearImpulse</span>&nbsp;<span style="color:#b4b4b4;">+=</span>&nbsp;<span style="color:#9cdcfe;">FrictionImpulse</span><span style="color:#b4b4b4;">;</span>&nbsp;
+        <span style="color:#dadada;">AngularImpulse</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">RVector</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Cross</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">FrictionImpulse</span><span style="color:#b4b4b4;">);</span>
+    <span style="color:#b4b4b4;">}</span>
+<span style="color:#b4b4b4;">}</span></pre>
+                    <!-- #endregion -->
+                </div>
+                <figcaption>FNetPhysCollisionResolution constructor calculates and impulse based on real world physics.</figcaption>
+            </div>
         </div>
 
+        <span class="spacer"></span>
+
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection learn-more thin">
                 <p>
                     An important distinguishing factor of my character controller is that it can push and be pushed by
                     other networked physics components in a physically accurate manner. If the collision query finds
@@ -93,6 +178,31 @@
                     get the inverse collision response and apply it directly to the other UNetworkedPhysics component
                     involved in the collision.
                 </p>
+            </div>
+
+            <div class="subsection">
+                <div class="codebox" style="max-height: 300px;">
+                    <!-- #region Preformatted Text -->
+<pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#4ec9b0;">INetworkPhysicsInterface</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">OtherInterface</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dcdcaa;">Cast</span><span style="color:#b4b4b4;">&lt;</span><span style="color:#4ec9b0;">INetworkPhysicsInterface</span><span style="color:#b4b4b4;">&gt;(</span><span style="color:#9cdcfe;">TestHit</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">GetActor</span><span style="color:#b4b4b4;">());</span>
+<span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">OtherInterface</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+    <span style="color:#4ec9b0;">FNetPhysCollisionResolution</span>&nbsp;<span style="color:#9cdcfe;">ResolveOurCollision</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">FNetPhysCollisionResolution</span><span style="color:#b4b4b4;">(</span><span style="color:#569cd6;">this</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#9cdcfe;">OtherInterface</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetNetworkPhysics</span><span style="color:#b4b4b4;">(),</span>&nbsp;<span style="color:#9cdcfe;">TestHit</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#dadada;">LinearVelocity</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#dadada;">AngularVelocity</span><span style="color:#b4b4b4;">);</span>
+    <span style="color:#4ec9b0;">FNetPhysCollisionResolution</span>&nbsp;<span style="color:#9cdcfe;">ResolveOtherCollision</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">FNetPhysCollisionResolution</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Inverse</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">ResolveOurCollision</span><span style="color:#b4b4b4;">);</span>
+    
+    <span style="color:#9cdcfe;">OtherInterface</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetNetworkPhysics</span><span style="color:#b4b4b4;">()-&gt;</span><span style="color:#dcdcaa;">ResolveCollisionWithRotation</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">ResolveOtherCollision</span><span style="color:#b4b4b4;">);</span>
+    <span style="color:#dcdcaa;">ResolveCollisionWithRotation</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">ResolveOurCollision</span><span style="color:#b4b4b4;">);</span>
+<span style="color:#b4b4b4;">}</span>
+<span style="color:#d8a0df;">else</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+    <span style="color:#4ec9b0;">FNetPhysCollisionResolution</span>&nbsp;<span style="color:#9cdcfe;">ResolveOurCollision</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">FNetPhysCollisionResolution</span><span style="color:#b4b4b4;">(</span><span style="color:#569cd6;">this</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#569cd6;">nullptr</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#9cdcfe;">TestHit</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#dadada;">LinearVelocity</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#dadada;">AngularVelocity</span><span style="color:#b4b4b4;">);</span>
+    <span style="color:#dcdcaa;">ResolveCollisionWithRotation</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">ResolveOurCollision</span><span style="color:#b4b4b4;">);</span>
+<span style="color:#b4b4b4;">}</span>
+    
+<span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#dadada;">bUseAngularMovement</span>&nbsp;<span style="color:#b4b4b4;">&amp;&amp;</span>&nbsp;<span style="color:#dcdcaa;">IsValid</span><span style="color:#b4b4b4;">(</span><span style="color:#dadada;">AngularBody</span><span style="color:#b4b4b4;">))</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+    <span style="color:#4ec9b0;">FRotator</span>&nbsp;<span style="color:#9cdcfe;">Rot</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">UKismetMathLibrary</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">RotatorFromAxisAndAngle</span><span style="color:#b4b4b4;">(</span><span style="color:#dadada;">AngularVelocity</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">GetSafeNormal</span><span style="color:#b4b4b4;">(),</span>&nbsp;<span style="color:#dadada;">AngularVelocity</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Size</span><span style="color:#b4b4b4;">());</span>
+    <span style="color:#dadada;">AngularBody</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">AddWorldRotation</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Rot</span><span style="color:#b4b4b4;">);</span>
+<span style="color:#b4b4b4;">}</span></pre>
+                    <!-- #endregion -->
+                </div>
+                <figcaption>How the PerformMove() function resolves a collision.</figcaption>
             </div>
         </div>
 
@@ -122,6 +232,45 @@
                     MovesPendingValidation. It then sets its position and velocity to the correction, and re-simulates
                     the remaining moves in MovesPendingValidation.
                 </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <div class="codebox">
+                    <!-- #region Preformatted Text -->
+<pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">UNetworkedPhysics</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">ClientCorrection_Implementation</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9a9a9a;">EndPosition</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9a9a9a;">EndVelocity</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9a9a9a;">Time</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+    <span style="color:#dadada;">UpdatedComponent</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">SetWorldLocation</span><span style="color:#b4b4b4;">(</span><span style="color:#9a9a9a;">EndPosition</span><span style="color:#b4b4b4;">);</span>
+    <span style="color:#dadada;">LinearVelocity</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">EndVelocity</span><span style="color:#b4b4b4;">;</span>
+    
+    <span style="color:#57a64a;">//&nbsp;prolly&nbsp;can&nbsp;change&nbsp;this&nbsp;to&nbsp;a&nbsp;call&nbsp;to&nbsp;clientapprovemove.</span>
+    <span style="color:#569cd6;">int</span>&nbsp;<span style="color:#9cdcfe;">Num</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dadada;">MovesBuffer</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Num</span><span style="color:#b4b4b4;">();</span>
+    <span style="color:#d8a0df;">for</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#569cd6;">int</span>&nbsp;<span style="color:#9cdcfe;">i</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b5cea8;">0</span><span style="color:#b4b4b4;">;</span>&nbsp;<span style="color:#9cdcfe;">i</span>&nbsp;<span style="color:#b4b4b4;">&lt;</span>&nbsp;<span style="color:#9cdcfe;">Num</span><span style="color:#b4b4b4;">;</span>&nbsp;<span style="color:#9cdcfe;">i</span><span style="color:#b4b4b4;">++)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+        <span style="color:#57a64a;">//&nbsp;Remove&nbsp;all&nbsp;moves&nbsp;prior&nbsp;to&nbsp;the&nbsp;corrected&nbsp;move.</span>
+        <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#dadada;">MovesBuffer</span><span style="color:#b4b4b4;">[</span><span style="color:#b5cea8;">0</span><span style="color:#b4b4b4;">]</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Time</span>&nbsp;<span style="color:#b4b4b4;">&lt;=</span>&nbsp;<span style="color:#9a9a9a;">Time</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+            <span style="color:#dadada;">MovesBuffer</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">RemoveAt</span><span style="color:#b4b4b4;">(</span><span style="color:#b5cea8;">0</span><span style="color:#b4b4b4;">);</span>&nbsp;
+        <span style="color:#b4b4b4;">}</span>
+        <span style="color:#d8a0df;">else</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+            <span style="color:#dadada;">PrevTimestamp</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dadada;">MovesBuffer</span><span style="color:#b4b4b4;">[</span><span style="color:#b5cea8;">0</span><span style="color:#b4b4b4;">]</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Time</span><span style="color:#b4b4b4;">;</span>
+            <span style="color:#d8a0df;">break</span><span style="color:#b4b4b4;">;</span>
+        <span style="color:#b4b4b4;">}</span>
+    <span style="color:#b4b4b4;">}</span>
+    
+    <span style="color:#d8a0df;">for</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#569cd6;">int</span>&nbsp;<span style="color:#9cdcfe;">i</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b5cea8;">0</span><span style="color:#b4b4b4;">;</span>&nbsp;<span style="color:#9cdcfe;">i</span>&nbsp;<span style="color:#b4b4b4;">&lt;</span>&nbsp;<span style="color:#dadada;">MovesBuffer</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Num</span><span style="color:#b4b4b4;">();</span>&nbsp;<span style="color:#9cdcfe;">i</span><span style="color:#b4b4b4;">++)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+        <span style="color:#57a64a;">//&nbsp;Execute&nbsp;the&nbsp;remaining&nbsp;moves&nbsp;in&nbsp;moves&nbsp;pending&nbsp;validation.</span>
+        <span style="color:#dcdcaa;">PerformMove</span><span style="color:#b4b4b4;">(</span><span style="color:#dadada;">MovesBuffer</span><span style="color:#b4b4b4;">[</span><span style="color:#9cdcfe;">i</span><span style="color:#b4b4b4;">]</span><span style="color:#b4b4b4;">);</span>
+    <span style="color:#b4b4b4;">}</span>
+    <span style="color:#57a64a;">//&nbsp;Reset&nbsp;the&nbsp;prev&nbsp;timestamp.</span>
+    <span style="color:#dadada;">PrevTimestamp</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dcdcaa;">GetWorld</span><span style="color:#b4b4b4;">()-&gt;</span><span style="color:#dadada;">TimeSeconds</span><span style="color:#b4b4b4;">;</span>
+    
+    <span style="color:#4ec9b0;">FMove</span>&nbsp;<span style="color:#9cdcfe;">Move</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">FMove</span><span style="color:#b4b4b4;">();</span>
+    <span style="color:#9cdcfe;">Move</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">EndPosition</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">EndPosition</span><span style="color:#b4b4b4;">;</span>
+    <span style="color:#9cdcfe;">Move</span><span style="color:#b4b4b4;">.</span><span style="color:#dadada;">Time</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9a9a9a;">Time</span><span style="color:#b4b4b4;">;</span>
+    <span style="color:#dadada;">LastValidatedMove</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">Move</span><span style="color:#b4b4b4;">;</span>
+<span style="color:#b4b4b4;">}</span></pre>
+                    <!-- #endregion -->
+                </div>
+                <figcaption>Client correction logic.</figcaption>
             </div>
         </div>
         <!-- #endregion -->
