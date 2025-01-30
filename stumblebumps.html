@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Michael Szolowicz - Stumblebumps</title>
+    <link rel="stylesheet" href="styles/global.css">
+    <script src="elements/header.js" type="text/javascript" defer></script>
+    <script src="elements/footer.js" type="text/javascript" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header-element></header-element>
+
+    <main>
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <h2>About</h2>
+                <p>
+                    Stumblebumps Unite is really two games; one which I solo programmed and one which I lead development
+                    of. It started life as a game jam project programmed in Unreal Engine and C++. That is the engine
+                    and language I am most comfortable with. Now, to graduate California State University Chico, game
+                    development students must participate in an “industry simulation” class. Students in this class have
+                    the option to pitch their game to faculty. That Unreal Engine prototype served as the basis for my
+                    winning pitch to be a design lead. For the class, development restarted with Unity as it is the
+                    engine the school teaches, guaranteeing the entire team would be familiar. This page details the
+                    programming work and design work I did for both projects.
+                </p>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <!-- #region Prototype -->
+        <div class="section">
+            <div class="subsection learn-more">
+                <h2>Prototype</h2>
+                <p>
+                    For the prototype, I programmed character movement, the animation state machine, bouncy bumpers, and
+                    game mode logic.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <h3>Character</h3>
+                <p>
+                    I used Unreal Engine’s ACharacter class, with its built-in character controller, to speed up
+                    development. The AStumblebumpCharacter subclass implements my IBumperInterface allowing other actors
+                    to apply impulses to the character by calling the Bump() function. The character also periodically
+                    saves its position when it is on the ground, which it uses as a respawn point.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <span>
+                    <p>
+                        My team made all the animations and I implemented them in-engine using animation blueprints.
+                        Idle
+                        and run animations are contained in their own state machine and saved for later use using a
+                        cached
+                        pose. Another state machine implements jump, midair, and landing animations on top of the basic
+                        locomotion. Alias nodes are used to keep the graph tidy.
+                    </p>
+                </span>
+                <span>
+                    <h3>Game Mode</h3>
+                    <p>
+                        Stumblebumps uses a custom game mode and state to implement four person split screen
+                        multiplayer.
+                        The custom AStumblebumpsGameMode spawns players. The UFinishLine component broadcasts a delegate
+                        when a player overlaps it. AStumblebumpsGameState picks ups this delegate then:
+                    </p>
+                    <ul>
+                        <li>Tracks the number of players finished.</li>
+                        <li>Plays sound effects for first, second, third, and fourth player finishes.</li>
+                        <li>Calls EventRaceEnd() on the game mode if all players in the base game state’s PlayerArray
+                            have finished.</li>
+                    </ul>
+                    <p>
+                        EventRaceEnd() is a blueprint implementable event. It activates the credits widget and revokes
+                        disables control over the player pawns.
+                    </p>
+                </span>
+            </div>
+
+            <span class="spacer horizontal vertical"></span>
+
+            <div class="subsection" style="max-width: 500px;">
+                <img src="images/stmbl/stmbl_ueAnimBp.png"
+                    alt="Named nodes representing animation states laid out on graph paper.">
+                <figcaption>Character animation state machine.</figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection">
+                <div class="codebox">
+                    <!-- #region Preformatted Text -->
+                    <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">AStumblebumpsGameState</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">ActorFinished</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">AActor</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9a9a9a;">Actor</span><span style="color:#b4b4b4;">)</span>
+<span style="color:#b4b4b4;">{</span>
+    <span style="color:#beb7ff;">UE_LOG</span><span style="color:#b4b4b4;">(</span><span style="color:#c8c8c8;">LogTemp</span><span style="color:#b4b4b4;">,</span>&nbsp;Warning<span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#beb7ff;">TEXT</span><span style="color:#b4b4b4;">(</span><span style="color:#e8c9bb;">&quot;</span><span style="color:#d69d85;">%s&nbsp;acks&nbsp;%s&nbsp;has&nbsp;finished</span><span style="color:#e8c9bb;">&quot;</span><span style="color:#b4b4b4;">),</span>&nbsp;<span style="color:#b4b4b4;">*</span><span style="color:#dcdcaa;">GetName</span><span style="color:#b4b4b4;">(),</span>&nbsp;<span style="color:#b4b4b4;">*</span><span style="color:#9a9a9a;">Actor</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetName</span><span style="color:#b4b4b4;">());</span>
+    
+    <span style="color:#4ec9b0;">AStumblebumpCharacter</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">Player</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dcdcaa;">Cast</span><span style="color:#b4b4b4;">&lt;</span><span style="color:#4ec9b0;">AStumblebumpCharacter</span><span style="color:#b4b4b4;">&gt;(</span><span style="color:#9a9a9a;">Actor</span><span style="color:#b4b4b4;">);</span>
+    <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Player</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+        <span style="color:#4ec9b0;">AStumblebumpPlayerState</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">PlayerState</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">Player</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetPlayerState</span><span style="color:#b4b4b4;">&lt;</span><span style="color:#4ec9b0;">AStumblebumpPlayerState</span><span style="color:#b4b4b4;">&gt;();</span>
+    
+        <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">PlayerState</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">HasPlayerFinished</span><span style="color:#b4b4b4;">())</span>&nbsp;<span style="color:#d8a0df;">return</span><span style="color:#b4b4b4;">;</span>
+    
+        <span style="color:#dadada;">NumPlayersFinished</span><span style="color:#b4b4b4;">++;</span>
+        <span style="color:#dadada;">OnPlayerFinished</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Broadcast</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">PlayerState</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#dadada;">NumPlayersFinished</span><span style="color:#b4b4b4;">);</span>
+        <span style="color:#9cdcfe;">PlayerState</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dadada;">bHasFinished</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#569cd6;">true</span><span style="color:#b4b4b4;">;</span>
+    
+        <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#dadada;">NumPlayersFinished</span>&nbsp;<span style="color:#b4b4b4;">&gt;=</span>&nbsp;<span style="color:#dadada;">PlayerArray</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Num</span><span style="color:#b4b4b4;">()</span>&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;<span style="color:#b5cea8;">1</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+            <span style="color:#4ec9b0;">AStumblebumpsGameMode</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">GameMode</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dcdcaa;">GetWorld</span><span style="color:#b4b4b4;">()-&gt;</span><span style="color:#dcdcaa;">GetAuthGameMode</span><span style="color:#b4b4b4;">&lt;</span><span style="color:#4ec9b0;">AStumblebumpsGameMode</span><span style="color:#b4b4b4;">&gt;();</span>
+            <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">GameMode</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
+                <span style="color:#9cdcfe;">GameMode</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">EventRaceEnd</span><span style="color:#b4b4b4;">();</span>
+            <span style="color:#b4b4b4;">}</span>
+        <span style="color:#b4b4b4;">}</span>
+    <span style="color:#b4b4b4;">}</span>
+<span style="color:#b4b4b4;">}</span></pre>
+                    <!-- #endregion -->
+                </div>
+                <figcaption>Game state logic controlls when the race ends.</figcaption>
+            </div>
+        </div>
+        <!-- #endregion -->
+
+        <!-- #region Final Project -->
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <h2>Final Project</h2>
+                <p>
+                    California State University Chico’s game development capstone class allows students to pitch game
+                    ideas to faculty. Based on the pitches, 2-4 game designers are selected and each paired with a
+                    producer.
+                    The designer and producer review the portfolios of everyone else in the class, then select teams in
+                    a draft. I was selected as a designer for my pitch based on the Stumblebumps game I made during a
+                    game jam.
+                </p>
+                <p>
+                    As lead designer, I set the vision, mentored folks, and worked to create an effective collaborative
+                    environment across all disciplines.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <h3>Documentation</h3>
+                <p>
+                    One of the ways I did so was by maintaining documentation for
+                    all aspects of the game.
+                </p>
+                <p>
+                    Diagrams helped effectively communicate my design intention to the team. I encapsulated our
+                    character
+                    controls in a diagram indicating every possible state of the character, what actions are available
+                    in each state, and what states you can enter from each other state. Separate documentation for
+                    actions and the inputs bound to those actions kept my docs more maintainable.
+                </p>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <iframe
+                    src="media/stmbl/stmbl_characterPhysicsStates.pdf#toolbar=1&navpanes=0&scrollbar=0&view=FitV"></iframe>
+                <figcaption>Diagram of character physics.</figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <p>
+                    To encapsulate the user experience, I created wireframes then arranged them into flowcharts. The
+                    wireframes indicate each menu screen and the actions it facilitates. The flowcharts show how these
+                    screens transition into one and other to create the game loop. I also made a flowchart showing the
+                    order of events when players enter a level to the point they finish it. These events include an
+                    intro cinematic, a countdown, the actual gameplay, what happens when a player finishes / is
+                    eliminated, and the transition into the results screen.
+                </p>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <iframe
+                    src="media/stmbl/stmbl_partyModeFlowchart.pdf#toolbar=1&navpanes=0&scrollbar=0&view=FitV"></iframe>
+                <figcaption>Partial user experience flowchart. Click <a href="media/stmbl/stmbl_wireframesFlowchart.pdf#view=FitV"
+                        target="_blank">here</a> to see full UX wireframe.</figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection learn-more thin">
+                <p>
+                    I wrote asset lists and requirements for content including models, sounds, animations, particle
+                    systems, and 2D assets. These lists included rich information to help the team: Priority dropdowns,
+                    filenames, prop types, descriptions, reference images, collider, and status checkboxes assisted
+                    artists in the creation of assets. They also helped the producer to schedule work. Using Google
+                    Sheets for our asset lists allowed anyone to add / request assets, but I added the majority of the
+                    items myself.
+                </p>
+            </div>
+
+            <span class="spacer horizontal vertical"></span>
+
+            <div class="subsection">
+                <a href="https://docs.google.com/spreadsheets/d/1_rL-UZdNLOJ5OU0_4lF-mvdbnykfKY448DJL13eBpCM/edit?usp=sharing"
+                    target="_blank">
+                    <img src="images/stmbl/stmbl_assetList.jpg"
+                        alt="Spreadsheet showing asset names, descriptions, pictures, status, and more.">
+                </a>
+                <figcaption>Example of one of our asset lists.
+                    <a href="https://docs.google.com/spreadsheets/d/1_rL-UZdNLOJ5OU0_4lF-mvdbnykfKY448DJL13eBpCM/edit?usp=sharing"
+                        target="_blank">
+                        Click
+                    </a>
+                    to see the full spreadsheet.
+                </figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <p>
+                    Another form of documentation I favored was videos. Frequently I recorded 5-20+ minute long videos
+                    explaining parts of our process. The first one of these explained the import and setup process for
+                    level props. After sharing it, the art team got more content done in less time, with fewer questions
+                    or revisions needed. This spurred me to continue making these types of videos throughout
+                    development.
+                </p>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection">
+                <iframe src="https://www.youtube.com/embed/ZytNcdw0FVI?si=rRVlnk1AeOKbISaI" title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <figcaption>Video tutorial I made showing artists our preferred workflow for importing new assets.
+                </figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <h3>Playtesting</h3>
+                <p>
+                    My responsibilities also included collection and analyzing user playtest data. I held these
+                    playtests in public spaces on campus, usually the library or gaming lounge, where I asked strangers
+                    to play the game then fill out a feedback form. These playtests were the cause for numerous changes,
+                    so by explaining just two case studies here I will give some insight to my process in brief.
+                </p>
+                <p>
+                    I quickly found that observing what players tried and how they responded to the game was more
+                    valuable than the feedback form responses. Moreover, the forms were more helpful in the context of
+                    observable behaviors. For example, some players reported the dive going too far and some not far
+                    enough. But from watching gameplay I saw that players often slide off platforms after diving. The
+                    issue? Diving lost momentum quickly in the air but slid too far on the ground. The problem was
+                    solved by implementing separate drag values when diving in the air vs. diving on the ground.
+                </p>
+                <p>
+                    Halfway through development, play testers played through levels without engaging each other much.
+                    This was in spite of a punch move being added to encourage competitive interactions. Alongside my
+                    producer, we considered several options. We could accept it as is, meaning the competition would be
+                    less about sabotage and more about who is the better platforming. But this led to cases where one
+                    player ran away with the match, leaving others no opportunity to catch up.
+                    We could redesign the levels, adding more choke points to force engagement. But the redesign process
+                    would take time away from working on our arena levels, which used an elimination rule set instead of
+                    a race ruleset.
+                </p>
+                <p>
+                    Ultimately, with input from the team, we decided to split the long race levels into smaller chunks,
+                    then have players compete in rounds to accumulate the most points. This frequently reset the playing
+                    field giving players more opportunity to interact. It also bridged the gap between the previously
+                    very long race levels and the shorter arena / elimination levels, making the game more cohesive. I
+                    worked with programmers and level designers implementing easy to follow workflows for converting
+                    levels, personally recording explanatory videos and rewriting all relevant documentation. Using this
+                    documentation, our communication channels, and their own expertise the team made the transition in
+                    less than two weeks.
+                </p>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <h3>Coding</h3>
+                <p>
+                    Only two programmers worked on our team, so I wrote some code to support them. The moving platform
+                    system was my biggest code contribution. To ensure platforms moved before the player I created an
+                    event that dispatched pre, during, and post platform move events. Every update the player moves
+                    after the platforms, using raycasts to check the surface it is standing on, then offsetting itself
+                    by that platform's delta from earlier in the same frame. Rotating platforms will rotate the player’s
+                    location around their center point, but will never affect the player’s pitch or roll. You can child
+                    moving platforms to other moving platforms for more complex levels.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection learn-more">
+                <p>
+                    Other coding work I did includes:
+                </p>
+                <ul>
+                    <li>Adding support for the player controller to push rigidbodies around. </li>
+                    <li>Creating a vehicle component that binds one of those moving platforms with some rotating
+                        platforms to create a train</li>
+                    <li>Various refinements to the character controller physics.</li>
+                </ul>
+            </div>
+
+            <span class="spacer vertical horizontal"></span>
+
+            <div class="subsection" style="align-items: center;">
+                <img src="images/stmbl/stmbl_train.gif" alt="Small dinosaur jumps on a wooden train."
+                    style="max-width: 300px;">
+                <br>
+                <figcaption>This train demonstrate moving platforms, rotating platforms, and my simple "vehicle" script.
+                </figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <!-- #endregion -->
+    </main>
+
+    <footer-element></footer-element>
+</body>
+
+</html>

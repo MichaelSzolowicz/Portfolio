@@ -88,6 +88,14 @@ figcaption {
 
 /* #endregion */
 
+/* #region Iframe */
+
+iframe {
+    border: none;
+}
+
+/* #endregion */
+
 /* #region Footer Element */
 
 footer-element {
@@ -145,6 +153,19 @@ div.codebox {
 
 /* #endregion */
 
+/* #region Project Buttons */
+
+ul.project-buttons {
+    padding-left: 0;
+}
+
+ul.project-buttons li, h1, h2, h3, h4, h5, h6 {
+    display: inline;
+    padding-right: 10px;
+}
+
+/* #endregion */
+
 /* #region Sections */
 
 div.section {
@@ -194,7 +215,7 @@ div.section > div.subsection.project-visual {
 }
 
 div.section > div.subsection.learn-more {
-    justify-content: space-between;
+    justify-content:start;
 }
 
 div.section > div.subsection.learn-more.thin {
