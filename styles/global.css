@@ -190,6 +190,10 @@ div.section.tall {
     min-height: var(--section-tall);
 }
 
+div.section.full-width-media {
+    justify-content: space-around;
+}
+
 div.section > div.subsection {
     /* Display Content */
     box-sizing: border-box;
@@ -215,11 +219,15 @@ div.section > div.subsection.project-visual {
 }
 
 div.section > div.subsection.learn-more {
-    justify-content:start;
+    justify-content: start;
 }
 
 div.section > div.subsection.learn-more.thin {
     max-width: 400px;
+}
+
+div.section.full-width-media > div.subsection {
+    max-width: 70%;
 }
 
 div.section img {
@@ -251,6 +259,11 @@ div.section iframe {
     }
 
     div.section>div.subsection.learn-more.thin {
+        max-width: 100%;
+    }
+
+    div.section.full-width-media > div.subsection {
+        width: 100%;
         max-width: 100%;
     }
 }

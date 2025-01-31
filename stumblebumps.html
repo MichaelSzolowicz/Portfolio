@@ -39,13 +39,15 @@
                 <h2>Prototype</h2>
                 <p>
                     For the prototype, I programmed character movement, the animation state machine, bouncy bumpers, and
-                    game mode logic.
+                    game mode logic. I made this for a game jam in 48 hours, so it does not include all the features I
+                    wanted. Still, my work is shown here to demonstrate Stumblebumps' evolution over time.
                 </p>
             </div>
         </div>
 
         <div class="section">
             <div class="subsection learn-more">
+                <span>
                 <h3>Character</h3>
                 <p>
                     I used Unreal Engine’s ACharacter class, with its built-in character controller, to speed up
@@ -53,11 +55,7 @@
                     to apply impulses to the character by calling the Bump() function. The character also periodically
                     saves its position when it is on the ground, which it uses as a respawn point.
                 </p>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="subsection learn-more">
+                </span>
                 <span>
                     <p>
                         My team made all the animations and I implemented them in-engine using animation blueprints.
@@ -91,7 +89,7 @@
 
             <span class="spacer horizontal vertical"></span>
 
-            <div class="subsection" style="max-width: 500px;">
+            <div class="subsection" style="max-width: 450px;">
                 <img src="images/stmbl/stmbl_ueAnimBp.png"
                     alt="Named nodes representing animation states laid out on graph paper.">
                 <figcaption>Character animation state machine.</figcaption>
@@ -100,35 +98,12 @@
 
         <span class="spacer"></span>
 
-        <div class="section">
+        <div class="section full-width-media">
             <div class="subsection">
-                <div class="codebox">
-                    <!-- #region Preformatted Text -->
-                    <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">AStumblebumpsGameState</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">ActorFinished</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">AActor</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9a9a9a;">Actor</span><span style="color:#b4b4b4;">)</span>
-<span style="color:#b4b4b4;">{</span>
-    <span style="color:#beb7ff;">UE_LOG</span><span style="color:#b4b4b4;">(</span><span style="color:#c8c8c8;">LogTemp</span><span style="color:#b4b4b4;">,</span>&nbsp;Warning<span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#beb7ff;">TEXT</span><span style="color:#b4b4b4;">(</span><span style="color:#e8c9bb;">&quot;</span><span style="color:#d69d85;">%s&nbsp;acks&nbsp;%s&nbsp;has&nbsp;finished</span><span style="color:#e8c9bb;">&quot;</span><span style="color:#b4b4b4;">),</span>&nbsp;<span style="color:#b4b4b4;">*</span><span style="color:#dcdcaa;">GetName</span><span style="color:#b4b4b4;">(),</span>&nbsp;<span style="color:#b4b4b4;">*</span><span style="color:#9a9a9a;">Actor</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetName</span><span style="color:#b4b4b4;">());</span>
-    
-    <span style="color:#4ec9b0;">AStumblebumpCharacter</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">Player</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dcdcaa;">Cast</span><span style="color:#b4b4b4;">&lt;</span><span style="color:#4ec9b0;">AStumblebumpCharacter</span><span style="color:#b4b4b4;">&gt;(</span><span style="color:#9a9a9a;">Actor</span><span style="color:#b4b4b4;">);</span>
-    <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">Player</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
-        <span style="color:#4ec9b0;">AStumblebumpPlayerState</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">PlayerState</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">Player</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">GetPlayerState</span><span style="color:#b4b4b4;">&lt;</span><span style="color:#4ec9b0;">AStumblebumpPlayerState</span><span style="color:#b4b4b4;">&gt;();</span>
-    
-        <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">PlayerState</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">HasPlayerFinished</span><span style="color:#b4b4b4;">())</span>&nbsp;<span style="color:#d8a0df;">return</span><span style="color:#b4b4b4;">;</span>
-    
-        <span style="color:#dadada;">NumPlayersFinished</span><span style="color:#b4b4b4;">++;</span>
-        <span style="color:#dadada;">OnPlayerFinished</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Broadcast</span><span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">PlayerState</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#dadada;">NumPlayersFinished</span><span style="color:#b4b4b4;">);</span>
-        <span style="color:#9cdcfe;">PlayerState</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dadada;">bHasFinished</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#569cd6;">true</span><span style="color:#b4b4b4;">;</span>
-    
-        <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#dadada;">NumPlayersFinished</span>&nbsp;<span style="color:#b4b4b4;">&gt;=</span>&nbsp;<span style="color:#dadada;">PlayerArray</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Num</span><span style="color:#b4b4b4;">()</span>&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;<span style="color:#b5cea8;">1</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
-            <span style="color:#4ec9b0;">AStumblebumpsGameMode</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">GameMode</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dcdcaa;">GetWorld</span><span style="color:#b4b4b4;">()-&gt;</span><span style="color:#dcdcaa;">GetAuthGameMode</span><span style="color:#b4b4b4;">&lt;</span><span style="color:#4ec9b0;">AStumblebumpsGameMode</span><span style="color:#b4b4b4;">&gt;();</span>
-            <span style="color:#d8a0df;">if</span>&nbsp;<span style="color:#b4b4b4;">(</span><span style="color:#9cdcfe;">GameMode</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
-                <span style="color:#9cdcfe;">GameMode</span><span style="color:#b4b4b4;">-&gt;</span><span style="color:#dcdcaa;">EventRaceEnd</span><span style="color:#b4b4b4;">();</span>
-            <span style="color:#b4b4b4;">}</span>
-        <span style="color:#b4b4b4;">}</span>
-    <span style="color:#b4b4b4;">}</span>
-<span style="color:#b4b4b4;">}</span></pre>
-                    <!-- #endregion -->
-                </div>
-                <figcaption>Game state logic controlls when the race ends.</figcaption>
+                <iframe src="https://www.youtube.com/embed/yqXwSpbXhwg?si=BTKAuKwneACpr_FA" title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </div>
         <!-- #endregion -->
@@ -174,7 +149,7 @@
 
         <span class="spacer"></span>
 
-        <div class="section">
+        <div class="section full-width-media">
             <div class="subsection learn-more">
                 <iframe
                     src="media/stmbl/stmbl_characterPhysicsStates.pdf#toolbar=1&navpanes=0&scrollbar=0&view=FitV"></iframe>
@@ -199,12 +174,13 @@
 
         <span class="spacer"></span>
 
-        <div class="section">
+        <div class="section full-width-media">
             <div class="subsection learn-more">
                 <iframe
                     src="media/stmbl/stmbl_partyModeFlowchart.pdf#toolbar=1&navpanes=0&scrollbar=0&view=FitV"></iframe>
-                <figcaption>Partial user experience flowchart. Click <a href="media/stmbl/stmbl_wireframesFlowchart.pdf#view=FitV"
-                        target="_blank">here</a> to see full UX wireframe.</figcaption>
+                <figcaption>Partial user experience flowchart. Click <a
+                        href="media/stmbl/stmbl_wireframesFlowchart.pdf#view=FitV" target="_blank">here</a> to see full
+                    UX wireframe.</figcaption>
             </div>
         </div>
 
@@ -256,7 +232,7 @@
 
         <span class="spacer"></span>
 
-        <div class="section">
+        <div class="section full-width-media">
             <div class="subsection">
                 <iframe src="https://www.youtube.com/embed/ZytNcdw0FVI?si=rRVlnk1AeOKbISaI" title="YouTube video player"
                     frameborder="0"
