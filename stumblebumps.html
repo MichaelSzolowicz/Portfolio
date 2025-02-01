@@ -16,8 +16,13 @@
         <span class="spacer"></span>
 
         <div class="section">
+            <div class="subsection centered">
+                <h2>Background</h2>
+            </div>
+        </div>
+        
+        <div class="section">
             <div class="subsection learn-more">
-                <h2>About</h2>
                 <p>
                     Stumblebumps Unite is really two games; one which I solo programmed and one which I lead development
                     of. It started life as a game jam project programmed in Unreal Engine and C++. That is the engine
@@ -35,8 +40,13 @@
 
         <!-- #region Prototype -->
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection centered">
                 <h2>Prototype</h2>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection learn-more">
                 <p>
                     For the prototype, I programmed character movement, the animation state machine, bouncy bumpers, and
                     game mode logic. I made this for a game jam in 48 hours, so it does not include all the features I
@@ -48,13 +58,13 @@
         <div class="section">
             <div class="subsection learn-more">
                 <span>
-                <h3>Character</h3>
-                <p>
-                    I used Unreal Engine’s ACharacter class, with its built-in character controller, to speed up
-                    development. The AStumblebumpCharacter subclass implements my IBumperInterface allowing other actors
-                    to apply impulses to the character by calling the Bump() function. The character also periodically
-                    saves its position when it is on the ground, which it uses as a respawn point.
-                </p>
+                    <h3>Character</h3>
+                    <p>
+                        I used Unreal Engine’s ACharacter class, with its built-in character controller, to speed up
+                        development. The AStumblebumpCharacter subclass implements my IBumperInterface allowing other actors
+                        to apply impulses to the character by calling the Bump() function. The character also periodically
+                        saves its position when it is on the ground, which it uses as a respawn point.
+                    </p>
                 </span>
                 <span>
                     <p>
@@ -66,6 +76,21 @@
                         locomotion. Alias nodes are used to keep the graph tidy.
                     </p>
                 </span>
+            </div>
+
+            <span class="spacer horizontal"></span>
+
+            <div class="subsection" style="max-width: 450px;">
+                <img src="images/stmbl/stmbl_ueAnimBp.png"
+                    alt="Named nodes representing animation states laid out on graph paper.">
+                <figcaption>Character animation state machine.</figcaption>
+            </div>
+            
+            <span class="spacer"></span>
+        </div>
+
+        <div class="section">
+            <div class="subsection learn-more">
                 <span>
                     <h3>Game Mode</h3>
                     <p>
@@ -74,7 +99,7 @@
                         The custom AStumblebumpsGameMode spawns players. The UFinishLine component broadcasts a delegate
                         when a player overlaps it. AStumblebumpsGameState picks ups this delegate then:
                     </p>
-                    <ul>
+                    <ul class="list-in-paragraph">
                         <li>Tracks the number of players finished.</li>
                         <li>Plays sound effects for first, second, third, and fourth player finishes.</li>
                         <li>Calls EventRaceEnd() on the game mode if all players in the base game state’s PlayerArray
@@ -86,24 +111,17 @@
                     </p>
                 </span>
             </div>
-
-            <span class="spacer horizontal vertical"></span>
-
-            <div class="subsection" style="max-width: 450px;">
-                <img src="images/stmbl/stmbl_ueAnimBp.png"
-                    alt="Named nodes representing animation states laid out on graph paper.">
-                <figcaption>Character animation state machine.</figcaption>
-            </div>
         </div>
 
         <span class="spacer"></span>
 
-        <div class="section full-width-media">
-            <div class="subsection">
+        <div class="section centered">
+            <div class="subsection wide-media">
                 <iframe src="https://www.youtube.com/embed/yqXwSpbXhwg?si=BTKAuKwneACpr_FA" title="YouTube video player"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <figcaption></figcaption>
             </div>
         </div>
         <!-- #endregion -->
@@ -113,8 +131,13 @@
         <span class="spacer"></span>
 
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection centered">
                 <h2>Final Project</h2>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection learn-more">
                 <p>
                     California State University Chico’s game development capstone class allows students to pitch game
                     ideas to faculty. Based on the pitches, 2-4 game designers are selected and each paired with a
@@ -149,8 +172,8 @@
 
         <span class="spacer"></span>
 
-        <div class="section full-width-media">
-            <div class="subsection learn-more">
+        <div class="section centered">
+            <div class="subsection learn-more wide-media">
                 <iframe
                     src="media/stmbl/stmbl_characterPhysicsStates.pdf#toolbar=1&navpanes=0&scrollbar=0&view=FitV"></iframe>
                 <figcaption>Diagram of character physics.</figcaption>
@@ -174,8 +197,8 @@
 
         <span class="spacer"></span>
 
-        <div class="section full-width-media">
-            <div class="subsection learn-more">
+        <div class="section centered">
+            <div class="subsection wide-media">
                 <iframe
                     src="media/stmbl/stmbl_partyModeFlowchart.pdf#toolbar=1&navpanes=0&scrollbar=0&view=FitV"></iframe>
                 <figcaption>Partial user experience flowchart. Click <a
@@ -214,9 +237,9 @@
                     to see the full spreadsheet.
                 </figcaption>
             </div>
-        </div>
 
-        <span class="spacer"></span>
+            <span class="spacer"></span>
+        </div>
 
         <div class="section">
             <div class="subsection learn-more">
@@ -232,8 +255,8 @@
 
         <span class="spacer"></span>
 
-        <div class="section full-width-media">
-            <div class="subsection">
+        <div class="section centered">
+            <div class="subsection wide-media">
                 <iframe src="https://www.youtube.com/embed/ZytNcdw0FVI?si=rRVlnk1AeOKbISaI" title="YouTube video player"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -285,8 +308,6 @@
             </div>
         </div>
 
-        <span class="spacer"></span>
-
         <div class="section">
             <div class="subsection learn-more">
                 <h3>Coding</h3>
@@ -307,7 +328,7 @@
                 <p>
                     Other coding work I did includes:
                 </p>
-                <ul>
+                <ul class="list-in-paragraph">
                     <li>Adding support for the player controller to push rigidbodies around. </li>
                     <li>Creating a vehicle component that binds one of those moving platforms with some rotating
                         platforms to create a train</li>
@@ -315,15 +336,16 @@
                 </ul>
             </div>
 
-            <span class="spacer vertical horizontal"></span>
+            <span class="spacer horizontal"></span>
 
-            <div class="subsection" style="align-items: center;">
+            <div class="subsection learn-more centered">
                 <img src="images/stmbl/stmbl_train.gif" alt="Small dinosaur jumps on a wooden train."
                     style="max-width: 300px;">
-                <br>
                 <figcaption>This train demonstrate moving platforms, rotating platforms, and my simple "vehicle" script.
                 </figcaption>
             </div>
+
+            <span class="spacer"></span>
         </div>
 
         <span class="spacer"></span>
