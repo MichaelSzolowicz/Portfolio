@@ -35,11 +35,7 @@
     --wide-paragraph: 50%;
     --extra-wide-paragraph: 60%;
 
-    --min-paragraph: 500px;
-}
-
-img {
-    width: 100%;
+    --min-paragraph: 400px;
 }
 
 /* #endregion */
@@ -124,6 +120,14 @@ figcaption {
 
 iframe {
     border: none;
+}
+
+/* #endregion */
+
+/* #region Img */
+
+img {
+    width: 100%;
 }
 
 /* #endregion */

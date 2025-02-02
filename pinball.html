@@ -77,7 +77,7 @@
         </div>
 
         <div class="section">
-            <div class="subsection">
+            <div class="subsection start-v" style="max-width: var(--thin-paragraph); min-width: var(--min-paragraph);">
                 <p>
                     PerformMove() integrates applied forces over the time since the last move. Before updating the
                     Actor’s position, it queries the environment for collisions. I resolve collisions in the constructor
@@ -89,9 +89,9 @@
                 </p>
             </div>
 
-            <span class="spacer horizontal short"></span>
+            <span class="spacer horizontal vertical"></span>
 
-            <div class="subsection">
+            <div class="subsection start-v">
                 <div class="codebox" style="max-height: 300px;">
                     <!-- #region Preformatted Text -->
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#4ec9b0;">FNetPhysCollisionResolution</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">FNetPhysCollisionResolution</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">UNetworkedPhysics</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9a9a9a;">Self</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#4ec9b0;">UNetworkedPhysics</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9a9a9a;">Other</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#4ec9b0;">FHitResult</span>&nbsp;<span style="color:#9a9a9a;">Hit</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9a9a9a;">LinearVelocity</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9a9a9a;">AngularVelocity</span><span style="color:#b4b4b4;">)</span>
@@ -174,7 +174,7 @@
         </div>
 
         <div class="section">
-            <div class="subsection learn-more thin">
+            <div class="subsection start-v" style="max-width: var(--thin-paragraph); min-width: var(--min-paragraph);">
                 <p>
                     An important distinguishing factor of my character controller is that it can push and be pushed by
                     other networked physics components in a physically accurate manner. If the collision query finds
@@ -184,9 +184,9 @@
                 </p>
             </div>
 
-            <span class="spacer horizontal short"></span>
+            <span class="spacer horizontal vertical"></span>
 
-            <div class="subsection">
+            <div class="subsection start-v">
                 <div class="codebox" style="max-height: 300px;">
                     <!-- #region Preformatted Text -->
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#4ec9b0;">INetworkPhysicsInterface</span><span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">OtherInterface</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#dcdcaa;">Cast</span><span style="color:#b4b4b4;">&lt;</span><span style="color:#4ec9b0;">INetworkPhysicsInterface</span><span style="color:#b4b4b4;">&gt;(</span><span style="color:#9cdcfe;">TestHit</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">GetActor</span><span style="color:#b4b4b4;">());</span>
@@ -244,8 +244,8 @@
         </div>
 
         <span class="spacer"></span>
-        <div class="section">
-            <div class="subsection">
+        <div class="section center-h">
+            <div class="subsection wide-media">
                 <div class="codebox">
                     <!-- #region Preformatted Text -->
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">UNetworkedPhysics</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">ClientCorrection_Implementation</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9a9a9a;">EndPosition</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#4ec9b0;">FVector</span>&nbsp;<span style="color:#9a9a9a;">EndVelocity</span><span style="color:#b4b4b4;">,</span>&nbsp;<span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9a9a9a;">Time</span><span style="color:#b4b4b4;">)</span>&nbsp;<span style="color:#b4b4b4;">{</span>
@@ -324,7 +324,7 @@
         </div>
 
         <div class="section">
-            <div class="subsection">
+            <div class="subsection start-v" style="max-width: var(--thin-paragraph); min-width: var(--min-paragraph);">
                 <p>
                     The backbone of this implementation is the UGhostRecorderLevelSubsystem. On initialization this
                     subsystem will use UGhostReplayConsoleParser’s static function to check for console commands to
@@ -334,9 +334,9 @@
                 </p>
             </div>
 
-            <span class="spacer short horizontal"></span>
+            <span class="spacer vertical horizontal"></span>
 
-            <div class="subsection">
+            <div class="subsection start-v">
                 <div class="codebox">
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">UGhostRecorderWorldSubsystem</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Initialize</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">FSubsystemCollectionBase</span><span style="color:#b4b4b4;">&amp;</span>&nbsp;<span style="color:#9a9a9a;">Collection</span><span style="color:#b4b4b4;">)</span>
 <span style="color:#b4b4b4;">{</span>
@@ -364,7 +364,7 @@
         </div>
 
         <div class="section">
-            <div class="subsection">
+            <div class="subsection start-v" style="max-width: var(--thin-paragraph); min-width: var(--min-paragraph);">
                 <p>
                     To record input, Actors must manually access UGhostRecorderLevelSubsystem and call the GetNextInputCaptureSlot()
                     function. GetNextInputCaptureSlot() returns a pointer to a FGhostReplayInput struct so that captured input can
@@ -375,9 +375,9 @@
                 </p>
             </div>
 
-            <span class="spacer short horizontal"></span>
+            <span class="spacer vertical horizontal"></span>
 
-            <div class="subsection">
+            <div class="subsection start-v">
                 <div class="codebox">
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#57a64a;">/**</span>
 <span style="color:#57a64a;">*&nbsp;Apply&nbsp;force&nbsp;directly&nbsp;to&nbsp;player&nbsp;via&nbsp;network&nbsp;physics&nbsp;component.</span>
@@ -409,7 +409,7 @@
         </div>
 
         <div class="section">
-            <div class="subsection">
+            <div class="subsection start-v" style="max-width: var(--thin-paragraph); min-width: var(--min-paragraph);">
                 <p>
                     To replay input, actors should use the UGhostReplayController component for convenience sake. Create the controller
                     component, then use the GetGhostInputActionReference() function to bind functions to named inputs. The input name
@@ -417,9 +417,9 @@
                 </p>
             </div>
         
-            <span class="spacer short horizontal"></span>
+            <span class="spacer vertical horizontal"></span>
         
-            <div class="subsection">
+            <div class="subsection start-v">
                 <div class="codebox">
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#4ec9b0;">FGhostInputAction</span><span style="color:#b4b4b4;">&amp;</span>&nbsp;<span style="color:#4ec9b0;">UGhostController</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">GetGhostInputActionReference</span><span style="color:#b4b4b4;">(</span><span style="color:#4ec9b0;">FString</span>&nbsp;<span style="color:#9a9a9a;">ActionName</span><span style="color:#b4b4b4;">)</span>
 <span style="color:#b4b4b4;">{</span>
@@ -437,7 +437,7 @@
         </div>
         
         <div class="section">
-            <div class="subsection">
+            <div class="subsection start-v" style="max-width: var(--thin-paragraph); min-width: var(--min-paragraph);">
                 <p>
                     Lastly, if UGhostRecorderLevelSubsystem is set to replay, the Tick function will go through captured input in order and
                     broadcast it via the delegate. UGhostReplayController components are already set up to listen for this delegate. Using
@@ -447,9 +447,9 @@
                 </p>
             </div>
         
-            <span class="spacer short horizontal"></span>
+            <span class="spacer vertical horizontal"></span>
         
-            <div class="subsection">
+            <div class="subsection start-v">
                 <div class="codebox">
 <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;"><span style="color:#569cd6;">void</span>&nbsp;<span style="color:#4ec9b0;">UGhostRecorderWorldSubsystem</span><span style="color:#b4b4b4;">::</span><span style="color:#dcdcaa;">Tick</span><span style="color:#b4b4b4;">(</span><span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9a9a9a;">DeltaTime</span><span style="color:#b4b4b4;">)</span>
 <span style="color:#b4b4b4;">{</span>
