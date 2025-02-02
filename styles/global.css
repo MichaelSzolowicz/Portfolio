@@ -27,15 +27,15 @@
 
     --picture-in-paragraph: 100px;
 
-    --thin-image: 300px;
-    --wide-image: 400px;
-    --extra-wide-image: 500px;
+    --section-image-thin: 300px;
+    --section-image-wide: 400px;
+    --section-image-extra-wide: 500px;
 
-    --thin-paragraph: 40%;
-    --wide-paragraph: 50%;
-    --extra-wide-paragraph: 60%;
+    --section-paragraph-thin: 40%;
+    --section-paragraph-wide: 50%;
+    --section-paragraph-extra-wide: 60%;
 
-    --min-paragraph: 400px;
+    --section-paragraph-min-width: 400px;
 }
 
 /* #endregion */
@@ -289,7 +289,10 @@ ul.list-in-paragraph {
 /* #region Section */
 
 div.section {
-    /* Displays contents horizontally withing a limited width. */
+    /* 
+    * Displays contents horizontally withing a limited width. 
+    * Stacks content vertically when the viewport is narrow.
+    */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -314,7 +317,9 @@ div.section.project {
 }
 
 div.section>div.subsection {
-    /* Display Content */
+    /* 
+    * Displays content vertically.
+    */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -353,36 +358,20 @@ div.section>div.subsection.project-description {
 
 /* #region Max Width Overrides */
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1500px) {
 
     /* #region root */
 
     :root {
-        --thin-image: 100%;
-        --wide-image: 100%;
-        --extra-wide-image: 100%;
+        --section-image-thin: 100%;
+        --section-image-wide: 100%;
+        --section-image-extra-wide: 100%;
     
-        --thin-paragraph: 100%;
-        --wide-paragraph: 100%;
-        --extra-wide-paragraph: 100%;
+        --section-paragraph-thin: 100%;
+        --section-paragraph-wide: 100%;
+        --section-paragraph-extra-wide: 100%;
     
-        --min-paragraph: 0;
-    }
-
-    /* #endregion */
-
-    /* #region Picture in Paragraph */
-
-    .picture-in-paragraph {
-        max-width: 100%;
-    }
-    
-    .picture-in-paragraph.thin {
-        max-width: 100%;
-    }
-    
-    .picture-in-paragraph.wide {
-        max-width: 100%;
+        --section-paragraph-min-width: 0;
     }
 
     /* #endregion */
