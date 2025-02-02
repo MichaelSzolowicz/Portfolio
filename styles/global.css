@@ -356,7 +356,7 @@ div.section>div.subsection.project-description {
 
 /* #endregion */
 
-/* #region Max Width Overrides */
+/* #region Viewport Width Overrides */
 
 @media screen and (max-width: 1500px) {
 
