@@ -14,15 +14,14 @@
 
     <main>
         <span class="spacer"></span>
-
         <div class="section">
-            <div class="subsection learn-more centered">
+            <div class="subsection center-h">
                 <h2>Background</h2>
             </div>
         </div>
 
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection">
                 <p>
                     All programming for this project was done by myself. I have used it to explore various concepts at
                     my own pace. However, given the time I would like to polish it into a publishable product. My custom
@@ -33,17 +32,16 @@
             </div>
         </div>
 
-        <span class="spacer"></span>
-
         <!-- #region Character Controller -->
+        <span class="spacer"></span>
         <div class="section">
-            <div class="subsection learn-more centered">
+            <div class="subsection center-h">
                 <h2>Custom Character Controller</h2>
             </div>
         </div>
 
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection">
                 <h3>Motivation</h3>
                 <p>
                     My custom pinball character controller is designed to replace Unreal Engine’s built in
@@ -54,10 +52,8 @@
             </div>
         </div>
 
-        <span class="spacer"></span>
-
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection">
                 <h3>Implementation</h3>
                 <p>
                     I defined basic features in the UNetworkedPhysics component, which inherits from UMovementComponent.
@@ -69,7 +65,7 @@
         </div>
 
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection">
                 <p>
                     On the client, the TickComponent() function kicks things off by calling the UpdatePhysics()
                     function, which constructs a move. Moves are represented by my own FMove struct. PerformMove() is
@@ -80,10 +76,8 @@
             </div>
         </div>
 
-        <span class="spacer"></span>
-
         <div class="section">
-            <div class="subsection learn-more thin">
+            <div class="subsection">
                 <p>
                     PerformMove() integrates applied forces over the time since the last move. Before updating the
                     Actor’s position, it queries the environment for collisions. I resolve collisions in the constructor
@@ -175,9 +169,9 @@
                 </div>
                 <figcaption>FNetPhysCollisionResolution constructor calculates and impulse based on real world physics.</figcaption>
             </div>
-        </div>
 
-        <span class="spacer"></span>
+            <span class="spacer"></span>
+        </div>
 
         <div class="section">
             <div class="subsection learn-more thin">
@@ -216,10 +210,12 @@
                 </div>
                 <figcaption>How the PerformMove() function resolves a collision.</figcaption>
             </div>
+
+            <span class="spacer"></span>
         </div>
 
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection">
                 <p>
                     After resolving collisions, PerformMove() physically updates the controlled component’s location.
                 </p>
@@ -227,7 +223,7 @@
         </div>
 
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection">
                 <p>
                     After the move is performed locally, the client stores its final position in the FMove struct and
                     submits it to the server. Server side PerformMove() is called again, and the final position is
@@ -238,7 +234,7 @@
         </div>
 
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection">
                 <p>
                     When the client receives a correction, it removes every move prior to the correction in
                     MovesPendingValidation. It then sets its position and velocity to the correction, and re-simulates
@@ -247,6 +243,7 @@
             </div>
         </div>
 
+        <span class="spacer"></span>
         <div class="section">
             <div class="subsection">
                 <div class="codebox">
@@ -285,19 +282,19 @@
                 <figcaption>Client correction logic.</figcaption>
             </div>
         </div>
+        <span class="spacer"></span>
         <!-- #endregion -->
 
-        <span class="spacer"></span>
-
         <!-- #region Input Replay System -->
+        <span class="spacer"></span>
         <div class="section">
-            <div class="subsection learn-more centered">
+            <div class="subsection center-h">
                 <h2>Input Replay System</h2>
             </div>
         </div>
 
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection ">
                 <h3>Motivation</h3>
                 <p>
                     The Ghost Replay system is designed to capture input, dispatch input back to actors, and serialize
@@ -320,8 +317,6 @@
             </div>
         </div>
 
-        <span class="spacer"></span>
-
         <div class="section">
             <div class="subsection">
                 <h3>Implementation</h3>
@@ -329,7 +324,7 @@
         </div>
 
         <div class="section">
-            <div class="subsection learn-more thin">
+            <div class="subsection">
                 <p>
                     The backbone of this implementation is the UGhostRecorderLevelSubsystem. On initialization this
                     subsystem will use UGhostReplayConsoleParser’s static function to check for console commands to
@@ -364,12 +359,12 @@
                 </div>
                 <figcaption>Ghost Record Level Subsystem Initialize function.</figcaption>
             </div>
+
+            <span class="spacer"></span>
         </div>
 
-        <span class="spacer"></span>
-
         <div class="section">
-            <div class="subsection learn-more thin">
+            <div class="subsection">
                 <p>
                     To record input, Actors must manually access UGhostRecorderLevelSubsystem and call the GetNextInputCaptureSlot()
                     function. GetNextInputCaptureSlot() returns a pointer to a FGhostReplayInput struct so that captured input can
@@ -409,12 +404,12 @@
                 </div>
                 <figcaption>Pinball pawn saving an input via the ghost recorder.</figcaption>
             </div>
+
+            <span class="spacer"></span>
         </div>
 
-        <span class="spacer"></span>
-
         <div class="section">
-            <div class="subsection learn-more thin">
+            <div class="subsection">
                 <p>
                     To replay input, actors should use the UGhostReplayController component for convenience sake. Create the controller
                     component, then use the GetGhostInputActionReference() function to bind functions to named inputs. The input name
@@ -437,12 +432,12 @@
                 </div>
                 <figcaption>Pinball pawn saving an input via the ghost recorder.</figcaption>
             </div>
-        </div>
 
-        <span class="spacer"></span>
+            <span class="spacer"></span>
+        </div>
         
         <div class="section">
-            <div class="subsection learn-more thin">
+            <div class="subsection">
                 <p>
                     Lastly, if UGhostRecorderLevelSubsystem is set to replay, the Tick function will go through captured input in order and
                     broadcast it via the delegate. UGhostReplayController components are already set up to listen for this delegate. Using
@@ -480,12 +475,12 @@
                 </div>
                 <figcaption>Pinball pawn saving an input via the ghost recorder.</figcaption>
             </div>
+
+            <span class="spacer"></span>
         </div>
 
-        <span class="spacer"></span>
-
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection">
                 <h3>Limitations</h3>
                 <p>
                     A maximum of 5 floats can be used to capture input data. This number is defined in the GHOST_REPLAY_INPUT_SIZE macro.
@@ -503,11 +498,9 @@
                 </p>
             </div>
         </div>
-
-        <span class="spacer"></span>
-                
+    
         <div class="section">
-            <div class="subsection learn-more">
+            <div class="subsection">
                 <h3>Future Work</h3>
                 <p>
                     Right now UGhostRecorderLevelSubsystem will always allocate more memory if it runs out of slots to store new input in.

@@ -3,35 +3,43 @@
 
 :root {
     font-family: Helvetica, sans-serif;
-    font-size: 110%;
+    font-size: 99%;
     letter-spacing: .08rem;
-    line-height: 1.6rem;
+    line-height: 2rem;
 
     --vs-bg-color: #1e1e1e;
-    
-    --section-width: 80%;
-    --section-max-width: 1500px;
-    --section-stack-width: 1000px;
 
     --spacer-vertical: 50px;
-    --spacer-tall: 200px;
-    --spacer-short: 20px;
-    --spacer-horizontal: 20px;
-    --spacer-wide: 200px;
-    --spacer-thin: 10px;
 
     --heading-font-family: 'Franklin Gothic Book', 'Arial Narrow', Arial, sans-serif;
     --heading-font-variant: small-caps;
     --heading-letter-spacing: .1em;
     --heading-font-weight: 200;
-    --heading1-size: 2rem;
-    --heading2-size: 1.7rem;
-    --heading3-size: 1.5rem;
+    --heading1-size: 2.5rem;
+    --heading2-size: 2rem;
+    --heading3-size: 1.7rem;
     --heading4-size: 1rem;
     --heading5-size: .5rem;
     --heading6-size: .25rem;
 
     --paragraph-margins: 0 0 2em 0;
+    --header-margins: 0 0 .6em 0;
+
+    --picture-in-paragraph: 100px;
+
+    --thin-image: 300px;
+    --wide-image: 400px;
+    --extra-wide-image: 500px;
+
+    --thin-paragraph: 40%;
+    --wide-paragraph: 50%;
+    --extra-wide-paragraph: 60%;
+
+    --min-paragraph: 500px;
+}
+
+img {
+    width: 100%;
 }
 
 /* #endregion */
@@ -67,46 +75,36 @@ p {
 
 /* #region Headings */
 
-.heading, h1, h2, h3, h4, h5, h6 {
+.h, h1, h2, h3, h4, h5, h6 {
     font-family: var(--heading-font-family);
     font-variant: var(--heading-font-variant);
     letter-spacing: var(--heading-letter-spacing);
     font-weight: var(--heading-font-weight);
-    margin: 0 0;
-    margin-bottom: .6em;
-    overflow: hidden;
+    margin: var(--header-margins);
 }
 
-.heading1, h1 {
+.h.h1, h1 {
     font-size: var(--heading1-size);
 }
 
-.heading2, h2 {
+.h.h2, h2 {
     font-size: var(--heading2-size);
 }
 
-.heading3, h3 {
+.h.h3, h3 {
     font-size: var(--heading3-size);
 }
 
-.heading4, h4 {
+.h.h4, h4 {
     font-size: var(--heading4-size);
 }
 
-.heading5, h5 {
+.h.h5, h5 {
     font-size: var(--heading5-size);
 }
 
-.heading6, h6 {
+.h.h6, h6 {
     font-size: var(--heading6-size);
-}
-
-h1.project-heading {
-    margin-bottom: 0;
-}
-
-p.project-subheading {
-    margin: 1em 0 0 0;
 }
 
 /* #endregion */
@@ -116,7 +114,8 @@ p.project-subheading {
 figcaption {
     font-size: .7rem;
     text-align: center;
-    margin: .5em 0 2rem 0;
+    margin: var(--paragraph-margins);
+    margin-top: .7em;
 }
 
 /* #endregion */
@@ -137,6 +136,18 @@ footer-element {
 
 /* #endregion */
 
+/* #region Project Headings */
+
+h2.project-heading {
+    margin-bottom: 0;
+}
+
+p.project-subheading {
+    margin: 1em 0 0 0;
+}
+
+/* #endregion */
+
 /* #region Spacer */
 
 span.spacer {
@@ -145,7 +156,7 @@ span.spacer {
 }
 
 span.spacer.short {
-    min-height: var(--spacer-short);
+    min-height: 20px;
 }
 
 span.spacer.vertical {
@@ -153,19 +164,19 @@ span.spacer.vertical {
 }
 
 span.spacer.tall {
-    min-height: var(--spacer-tall);
+    min-height: 200px;
 }
 
 span.spacer.thin {
-    min-width: var(--spacer-thin);
+    min-width: 10px;
 }
 
 span.spacer.horizontal {
-    min-width: var(--spacer-horizontal);
+    min-width: 20px;
 }
 
 span.spacer.wide {
-    min-width: var(--spacer-wide);
+    min-width: 50px;
 }
 
 /* #endregion */
@@ -223,7 +234,8 @@ ul.project-buttons a {
     font-variant: var(--heading-font-variant);
     letter-spacing: var(--heading-letter-spacing);
     font-weight: var(--heading-font-weight);
-    font-size: var(--heading2-size);
+    font-size: var(--heading3-size);
+    margin: 0 0 0 0;
 }
 
 ul.project-buttons a:hover {
@@ -237,13 +249,27 @@ ul.project-buttons a:hover {
 /* #region Project Bullets */
 
 ul.project-bullets {
-    margin: 1em 0;
-    margin-top: 1.5em;
+    margin: 1.5em 0 1em 0;
 }
 
 ul.project-bullets li {
-    margin: 0 0;
-    margin-bottom: .5em;
+    margin: 0 0 .5em 0;
+}
+
+/* #endregion */
+
+/* #region Video */
+
+iframe.video {
+    aspect-ratio: 16 / 9;
+}
+
+/* #endregion */
+
+/* #region Document */
+
+iframe.document {
+    aspect-ratio: 16 / 9;
 }
 
 /* #endregion */
@@ -256,19 +282,18 @@ ul.list-in-paragraph {
 
 /* #endregion */
 
-/* #region Sections */
+/* #region Section */
 
 div.section {
-    /* Display */
+    /* Displays contents horizontally withing a limited width. */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     white-space: nowrap;
 
-    /* Size / Position */
     margin: auto;
-    width: var(--section-width);
-    max-width: var(--section-max-width);
+    width: 80%;
+    max-width: 1500px;
     height: fit-content;
 
     /* Debug 
@@ -276,15 +301,15 @@ div.section {
     */
 }
 
+div.section.center-h {
+    justify-content: center;
+}
+
 div.section.project {
     min-height: 500px;
 }
 
-div.section.centered {
-    justify-content: center;
-}
-
-div.section > div.subsection {
+div.section>div.subsection {
     /* Display Content */
     box-sizing: border-box;
     display: flex;
@@ -300,41 +325,66 @@ div.section > div.subsection {
     */
 }
 
-div.section > div.subsection.centered {
+div.section>div.subsection.center-h {
     align-items: center;
 }
 
-div.section > div.subsection.wide-media {
-    max-width: 70%;
-}
-
-div.section > div.subsection.project-description {
-    max-width: 700px;
-}
-
-div.section > div.subsection.project-visual {
-    max-width: 500px;
-} 
-
-div.section > div.subsection.learn-more {
+div.section>div.subsection.start-v {
     justify-content: start;
 }
 
-div.section > div.subsection.learn-more.thin {
-    max-width: 40%
+div.section>div.subsection.wide-media {
+    max-width: 70%;
 }
 
-div.section img {
-    width: 100%;
+div.section>div.subsection.project-media {
+    max-width: 500px;
 }
 
-div.section iframe {
-    width: 100%;
-
-    aspect-ratio: 16 / 9;
+div.section>div.subsection.project-description {
+    max-width: 700px;
 }
+
+/* #endregion */
+
+/* #region Max Width Overrides */
 
 @media screen and (max-width: 1000px) {
+
+    /* #region root */
+
+    :root {
+        --thin-image: 100%;
+        --wide-image: 100%;
+        --extra-wide-image: 100%;
+    
+        --thin-paragraph: 100%;
+        --wide-paragraph: 100%;
+        --extra-wide-paragraph: 100%;
+    
+        --min-paragraph: 0;
+    }
+
+    /* #endregion */
+
+    /* #region Picture in Paragraph */
+
+    .picture-in-paragraph {
+        max-width: 100%;
+    }
+    
+    .picture-in-paragraph.thin {
+        max-width: 100%;
+    }
+    
+    .picture-in-paragraph.wide {
+        max-width: 100%;
+    }
+
+    /* #endregion */
+
+    /* #region Sections */
+
     div.section {
         /* Display */
         display: flex;
@@ -344,21 +394,19 @@ div.section iframe {
 
     }
 
-    div.section > div.subsection.wide-media {
+    div.section>div.subsection.wide-media {
         max-width: 100%;
     }
     
-    div.section > div.subsection.project-description {
+    div.section>div.subsection.project-media {
         max-width: 100%;
     }
     
-    div.section > div.subsection.project-visual {
+    div.section>div.subsection.project-description {
         max-width: 100%;
     }
-    
-    div.section > div.subsection.learn-more.thin {
-        max-width: 100%;
-    }
+
+    /* #endregion */ 
 }
 
 /* #endregion */
