@@ -9,8 +9,6 @@
 
     --vs-bg-color: #1e1e1e;
 
-    --spacer-vertical: 50px;
-
     --heading-font-family: 'Franklin Gothic Book', 'Arial Narrow', Arial, sans-serif;
     --heading-font-variant: small-caps;
     --heading-letter-spacing: .1em;
@@ -21,6 +19,8 @@
     --heading4-size: 1rem;
     --heading5-size: .5rem;
     --heading6-size: .25rem;
+
+    --codebox-font-family: "Consolas, 'Courier New', monospace";
 
     --paragraph-margins: 0 0 2em 0;
     --header-margins: 0 0 .6em 0;
@@ -138,23 +138,11 @@ footer-element {
 
 /* #endregion */
 
-/* #region Project Headings */
-
-h2.project-heading {
-    margin-bottom: 0;
-}
-
-p.project-subheading {
-    margin: 1em 0 0 0;
-}
-
-/* #endregion */
-
 /* #region Spacer */
 
 span.spacer {
     display: block;
-    min-height: var(--spacer-vertical);
+    min-height: 50px;
 }
 
 span.spacer.short {
@@ -162,7 +150,7 @@ span.spacer.short {
 }
 
 span.spacer.vertical {
-    min-height: var(--spacer-vertical);
+    min-height: 50px;
 }
 
 span.spacer.tall {
@@ -196,9 +184,34 @@ div.codebox {
 
     background: var(--vs-bg-color);
 
-    font-family: "Consolas, 'Courier New', monospace";
+    font-family: var(--codebox-font-family);
     letter-spacing: normal;
     line-height: normal;
+}
+
+/* #endregion */
+
+/* #region Project Headings */
+
+/* Use these specifiers to correct the space between project subheadings and bullet points. */
+h2.project-heading {
+    margin-bottom: 0;
+}
+
+p.project-subheading {
+    margin: 1em 0 0 0;
+}
+
+/* #endregion */
+
+/* #region Project Bullets */
+
+ul.project-bullets {
+    margin: 1.5em 0 1em 0;
+}
+
+ul.project-bullets li {
+    margin: 0 0 .5em 0;
 }
 
 /* #endregion */
@@ -213,6 +226,13 @@ ul.project-buttons {
 ul.project-buttons li {
     margin-right: 20px;
     display: inline;
+}
+
+ul.project-buttons.vertical li {
+    display: block;
+    margin-right: auto;
+    padding-bottom: 20px;
+    text-align: center;
 }
 
 ul.project-buttons li span {
@@ -243,19 +263,6 @@ ul.project-buttons a {
 ul.project-buttons a:hover {
     --strike: 1;
     background-position-x: left;
-}
-
-
-/* #endregion */
-
-/* #region Project Bullets */
-
-ul.project-bullets {
-    margin: 1.5em 0 1em 0;
-}
-
-ul.project-bullets li {
-    margin: 0 0 .5em 0;
 }
 
 /* #endregion */
