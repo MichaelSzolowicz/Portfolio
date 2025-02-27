@@ -1,5 +1,6 @@
 
 .preview-gallery {
+    box-sizing: border-box;
     display: grid;
     width: 100%;
     min-width: 300px;
@@ -7,10 +8,16 @@
 
     overflow-y: hidden; /* hide grid items that overflow */
 
+    /* Debug
     border: solid blue;
+    */
 }
 
 div.preview-gallery > div {
+    box-sizing: border-box;
+    padding: 0px 20px 10px 0px;
+
+    /* Debug
     border: solid;
-    padding: 20px;
+    */
 }
