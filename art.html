@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="eng-US">
+
+<head>
+    <title>Michael Szolowicz - Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/global/favicon.png">
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/art.css">
+    <script src="elements/header.js" type="text/javascript" defer></script>
+    <script src="elements/footer.js" type="text/javascript" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header-element></header-element>
+
+    <main>
+        <div class="section center-h">
+            <div class="preview-gallery">
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/tree_3.jpg">
+                </div>
+                <div class="preview-image">
+                    <img alt="Autamnal tree" src="images/art/tree_2.jpg">
+                </div>
+                <div class="preview-image">
+                    <img alt="Autamnal tree" src="images/art/tree_1.jpg">
+                </div>
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/tree_3.jpg">
+                </div>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section center-h">
+            <div class="preview-gallery">
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/tree_3.jpg">
+                </div>
+                <div class="preview-image">
+                    <img alt="Autamnal tree" src="images/art/tree_2.jpg">
+                </div>
+                <div class="preview-image">
+                    <img alt="Autamnal tree" src="images/art/tree_1.jpg">
+                </div>
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/tree_3.jpg">
+                </div>
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/tree_3.jpg">
+                </div>
+                <div class="preview-image">
+                    <img alt="Autamnal tree" src="images/art/tree_2.jpg">
+                </div>
+                <div class="preview-image">
+                    <img alt="Autamnal tree" src="images/art/tree_1.jpg">
+                </div>
+            </div>
+        </div>
+            
+        <span class="spacer"></span>
+
+        <div class="section center-h">
+            <div class="preview-gallery">
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/strw_1.jpg">
+                </div>
+                <div class="preview-image">
+                    <img alt="Autamnal tree" src="images/art/strw_2.jpg">
+                </div>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section center-h">
+            <div class="preview-gallery">
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/tree_3.jpg">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer-element></footer-element>
+
+    <script>
+
+        window.addEventListener('resize', function(event){
+           var galleries = document.querySelectorAll('div.preview-gallery');
+           galleries.forEach(gallery => {
+            var width = gallery.clientWidth;
+            gallery.style["max-height"] = "" + width + "px";
+           });
+            console.log(document.querySelector('.preview-gallery').style["max-height"]);
+        });
+    </script>
+</body>
+
+</html>
