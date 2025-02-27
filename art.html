@@ -30,11 +30,24 @@
                 <div class="s">
                     <img alt="Autamnal tree" src="images/art/tree_3.jpg">
                 </div>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section center-h">
+            <div class="preview-gallery">
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/tree_3.jpg">
+                </div>
                 <div class="preview-image">
                     <img alt="Autamnal tree" src="images/art/tree_2.jpg">
                 </div>
                 <div class="preview-image">
                     <img alt="Autamnal tree" src="images/art/tree_1.jpg">
+                </div>
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/tree_3.jpg">
                 </div>
                 <div class="s">
                     <img alt="Autamnal tree" src="images/art/tree_3.jpg">
@@ -47,9 +60,44 @@
                 </div>
             </div>
         </div>
+            
+        <span class="spacer"></span>
+
+        <div class="section center-h">
+            <div class="preview-gallery">
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/strw_1.jpg">
+                </div>
+                <div class="preview-image">
+                    <img alt="Autamnal tree" src="images/art/strw_2.jpg">
+                </div>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section center-h">
+            <div class="preview-gallery">
+                <div class="s">
+                    <img alt="Autamnal tree" src="images/art/tree_3.jpg">
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer-element></footer-element>
+
+    <script>
+
+        window.addEventListener('resize', function(event){
+           var galleries = document.querySelectorAll('div.preview-gallery');
+           galleries.forEach(gallery => {
+            var width = gallery.clientWidth;
+            gallery.style["max-height"] = "" + width + "px";
+           });
+            console.log(document.querySelector('.preview-gallery').style["max-height"]);
+        });
+    </script>
 </body>
 
 </html>
