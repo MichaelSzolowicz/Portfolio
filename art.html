@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="styles/art.css">
     <script src="elements/header.js" type="text/javascript" defer></script>
     <script src="elements/footer.js" type="text/javascript" defer></script>
+    <script src="scripts/art.js" type="text/javascript" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -86,18 +87,6 @@
     </main>
 
     <footer-element></footer-element>
-
-    <script>
-
-        window.addEventListener('resize', function(event){
-           var galleries = document.querySelectorAll('div.preview-gallery');
-           galleries.forEach(gallery => {
-            var width = gallery.clientWidth;
-            gallery.style["max-height"] = "" + width + "px";
-           });
-            console.log(document.querySelector('.preview-gallery').style["max-height"]);
-        });
-    </script>
 </body>
 
 </html>
