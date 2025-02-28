@@ -30,6 +30,7 @@
     --section-image-extra-wide: 500px;
 
     --section-paragraph-thin: 40%;
+    --section-paragraph-extra-thin: 20%;
     --section-paragraph-wide: 50%;
     --section-paragraph-extra-wide: 60%;
 
@@ -377,6 +378,7 @@ div.section>div.subsection.project-info {
         --section-image-extra-wide: 100%;
     
         --section-paragraph-thin: 100%;
+        --section-paragraph-extra-thin: 100%;
         --section-paragraph-wide: 100%;
         --section-paragraph-extra-wide: 100%;
     
