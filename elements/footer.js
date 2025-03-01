@@ -63,7 +63,7 @@ footer div {
 </style>
 <footer>
     <div>
-        <span>&copy; Michael Szolowicz 2024</span>
+        <span>&copy; Michael Szolowicz 2025</span>
 
         <ul class="socials" style="display: inline;">
             <li><a href="https://www.linkedin.com/in/michael-a-szolowicz/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
