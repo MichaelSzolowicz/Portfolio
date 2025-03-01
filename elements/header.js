@@ -6,17 +6,16 @@ headerTemplate.innerHTML = `
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 #header-logo {
-    max-width: 160px;
-    width: 100%;
+    max-width: 300px;
+    margin: auto 0;
+    line-height: 0;
 }
 
 header {
     width: 100%;
-    height: 70px;
+    height: auto;
 
     background-color: darkgrey;
-
-    position: fixed;
 
     display: flex;
     flex-direction: column;
@@ -24,17 +23,16 @@ header {
     align-items: center;
 }
 
-header div {
-    width: 70%;
+.header-body {
+    width: var(--section-width);
+    max-width: var(--section-max-width);
 
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 
-    /* debug
-    border: solid;
-    */
+    margin: 20px auto;
 }
 
 .socials {
@@ -55,14 +53,25 @@ header div {
 
 </style>
 <header>
-    <div>
-        <a href="index.html"><img id="header-logo" src="images/global/logo.png" alt="Michael Szolowicz logo"></a>
+    <div class="header-body">
+        <div id="header-logo">
+            <a href="index.html"><img src="images/global/logo.png" alt="Michael Szolowicz logo"></a>
+        </div>
+
+        <span class="spacer short wide"></span>
+
+        <ul class="project-buttons">
+            <li><span><a href="games.html">Games</a></span></li>
+            <li><span><a href="art.html">Art</a></span></li>
+        </ul>
+
+        <!--
         <ul class="socials">
             <li><a href="https://www.linkedin.com/in/michael-a-szolowicz/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
         </ul>
+        -->
     </div>
 </header>
-<span class="spacer" style="min-height: 70px;"></span>
 `;
 
 class Header extends HTMLElement {

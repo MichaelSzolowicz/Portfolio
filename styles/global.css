@@ -25,6 +25,9 @@
     --paragraph-margins: 0 0 2em 0;
     --header-margins: 0 0 .6em 0;
 
+    --section-width: 80%;
+    --section-max-width: 1500px;
+
     --section-image-thin: 300px;
     --section-image-wide: 400px;
     --section-image-extra-wide: 500px;
@@ -305,8 +308,8 @@ div.section {
     white-space: nowrap;
 
     margin: auto;
-    width: 80%;
-    max-width: 1500px;
+    width: var(--section-width);
+    max-width: var(--section-max-width);
     height: fit-content;
 
     /* Debug 
