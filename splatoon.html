@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Michael Szolowicz - Splatoon Clone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/global/favicon.png">
+    <link rel="stylesheet" href="styles/global.css">
+    <script src="elements/header.js" type="text/javascript" defer></script>
+    <script src="elements/footer.js" type="text/javascript" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header-element></header-element>
+
+    <main>
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection center-h">
+                <h2>Background</h2>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <p>
+                    This project was developed in three and a half weeks for a Game Programming final at California
+                    State University Chico. The assignment had me recreate a mechanic from a game of my choosing.
+                    I chose to recreate the movement system from Nintendo’s Splatoon franchise because it would allow me
+                    to practice HLSL shader programming, and try my hand at creating a character controller from
+                    scratch. The biggest challenges were getting a painting system up and running, then getting the
+                    character controller to dynamically react to the paint.There were some hiccups and shortcomings, but
+                    overall I’m satisfied that I was able to implement all the core features in the given time limit.
+                </p>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection center-h">
+                <h2>Paint System</h2>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <p>
+                    At the heart of the paint system is SplatMask.shader [fig 1]. It draws to a render texture
+                    (henceforth referred to as the “splatmap”) using several properties that control the stroke’s
+                    position, radius, color, and hardness.
+                    The only hard requirements were that objects not owning the splatmap (IE projectiles) could issue a
+                    request to paint with a specific location and color.
+                    Since painting did not seem to be a significant bottleneck, I focused my optimization efforts
+                    elsewhere.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <div class="codebox">
+                    <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;">
+v2f&nbsp;<span style="color:#569cd6;">vert</span>(appdata&nbsp;v)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;v2f&nbsp;o;
+&nbsp;&nbsp;&nbsp;&nbsp;o.worldPos&nbsp;=&nbsp;<span style="color:#569cd6;">mul</span>(unity_ObjectToWorld,&nbsp;v.vertex);
+&nbsp;&nbsp;&nbsp;&nbsp;o.uv&nbsp;=&nbsp;v.uv;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">float4</span>&nbsp;uv&nbsp;=&nbsp;<span style="color:#569cd6;">float4</span>(<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#b5cea8;">1</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;uv<span style="color:#b4b4b4;">.xy</span>&nbsp;=&nbsp;(v.uv<span style="color:#b4b4b4;">.xy</span>&nbsp;*&nbsp;<span style="color:#b5cea8;">2</span>&nbsp;-&nbsp;<span style="color:#b5cea8;">1</span>)&nbsp;*&nbsp;<span style="color:#569cd6;">float2</span>(<span style="color:#b5cea8;">1</span>,&nbsp;_ProjectionParams<span style="color:#b4b4b4;">.x</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;o.vertex&nbsp;=&nbsp;uv;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">return</span>&nbsp;o;
+}
+    
+<span style="color:#569cd6;">float4</span>&nbsp;<span style="color:#569cd6;">frag</span>(v2f&nbsp;i)&nbsp;:&nbsp;SV_Target
+{&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">float4</span>&nbsp;col&nbsp;=&nbsp;<span style="color:#569cd6;">tex2D</span>(_MainTex,&nbsp;i.uv);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">float</span>&nbsp;m&nbsp;=&nbsp;<span style="color:#569cd6;">mask</span>(i.worldPos,&nbsp;_SplatPos,&nbsp;_Radius,&nbsp;_Hardness);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">float</span>&nbsp;edge&nbsp;=&nbsp;m&nbsp;*&nbsp;_Strength;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">return</span>&nbsp;<span style="color:#569cd6;">lerp</span>(col,&nbsp;_InkColor,&nbsp;edge);
+&nbsp;&nbsp;&nbsp;&nbsp;
+}</pre>
+                </div>
+                <figcaption>fig. 1: SplatMask.shader vertex and fragment shaders. The vertex shader projects the mesh
+                    into UV space to be painted. The fragment shader uses a circular falloff to paint the stroke.
+                </figcaption>
+            </div>
+
+            <span class="spacer horizontal"></span>
+
+            <div class="subsection">
+                <div class="codebox" style="height: 100%;">
+                    <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;">
+<span style="color:#569cd6;">public</span>&nbsp;<span style="color:#569cd6;">void</span>&nbsp;<span style="color:#dcdcaa;">DrawSplat</span>(<span style="color:#86c691;">Vector3</span>&nbsp;<span style="color:#9cdcfe;">worldPos</span>,&nbsp;<span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">radius</span>,&nbsp;<span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">hardness</span>,&nbsp;<span style="color:#569cd6;">float</span>&nbsp;<span style="color:#9cdcfe;">strength</span>,&nbsp;<span style="color:#86c691;">Color</span>&nbsp;<span style="color:#9cdcfe;">inkColor</span>)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;splatMaterial<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">SetFloat</span>(<span style="color:#4ec9b0;">Shader</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">PropertyToID</span>(<span style="color:#d69d85;">&quot;_Radius&quot;</span>),&nbsp;<span style="color:#9cdcfe;">radius</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;splatMaterial<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">SetFloat</span>(<span style="color:#4ec9b0;">Shader</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">PropertyToID</span>(<span style="color:#d69d85;">&quot;_Hardness&quot;</span>),&nbsp;<span style="color:#9cdcfe;">hardness</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;splatMaterial<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">SetFloat</span>(<span style="color:#4ec9b0;">Shader</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">PropertyToID</span>(<span style="color:#d69d85;">&quot;_Strength&quot;</span>),&nbsp;<span style="color:#9cdcfe;">strength</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;splatMaterial<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">SetVector</span>(<span style="color:#4ec9b0;">Shader</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">PropertyToID</span>(<span style="color:#d69d85;">&quot;_SplatPos&quot;</span>),&nbsp;<span style="color:#9cdcfe;">worldPos</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;splatMaterial<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">SetVector</span>(<span style="color:#4ec9b0;">Shader</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">PropertyToID</span>(<span style="color:#d69d85;">&quot;_InkColor&quot;</span>),&nbsp;<span style="color:#9cdcfe;">inkColor</span>);
+    
+&nbsp;&nbsp;&nbsp;&nbsp;cmd<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">SetRenderTarget</span>(tempM);
+&nbsp;&nbsp;&nbsp;&nbsp;cmd<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">DrawRenderer</span>(<span style="color:#dcdcaa;">GetComponent</span>&lt;<span style="color:#4ec9b0;">Renderer</span>&gt;(),&nbsp;splatMaterial,&nbsp;<span style="color:#b5cea8;">0</span>);
+    
+&nbsp;&nbsp;&nbsp;&nbsp;cmd<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">SetRenderTarget</span>(splatmap);
+&nbsp;&nbsp;&nbsp;&nbsp;cmd<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Blit</span>(tempM,&nbsp;splatmap,&nbsp;alphaCombiner);
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4ec9b0;">Graphics</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">ExecuteCommandBuffer</span>(cmd);
+&nbsp;&nbsp;&nbsp;&nbsp;cmd<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Clear</span>();
+}</pre>
+                </div>
+                <figcaption>fig. 2: SplatableObject.cs</figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <p>
+                    For a terrain mesh to be paintable it must implement SplatableObject.cs [fig 2] as a component.
+
+                    A Splatable Object component stores references to the splatmap, Inkable Surface material, and Splat
+                    Mask shader.
+
+                    Its public DrawSplat() function first sets parameters on the Splat Mask shader, then uses a command
+                    buffer to draw the shader output to the splatmap.
+
+                    More specifically, the output is first stored in a temporary variable, which is blended with the
+                    actual splatmap using a simple blend shader.
+
+                    Finally the splatmap is fed to the Inkable Surface material, which interprets it as a mask before
+                    actually rendering the ink.
+                </p>
+            </div>
+
+            <span class="spacer horizontal"></span>
+
+            <div class="subsection">
+                <img src="images/splatoon/splt_splatmapdemo_trimmed.gif" alt="A grey cube being painted yellow">
+                <figcaption>fig. 3: Video demonstrating how the splatmap is used to paint an object. The splatmap is
+                    displayed in the top left corner of the video.</figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection center-h">
+                <h2>Reading the Splatmap</h2>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <h3>Read Pixels</h3>
+                <p>
+                    Reading pixel data from the splatmap poses a challenge because the data needs to be moved from a
+                    render texture, which lives on the GPU, to a C# script on the CPU. Unity provides an easy way to do
+                    this with the Texture2D.ReadPixels function, but this method is extremely slow.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <div class="codebox">
+                    <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;">
+dst&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;<span style="color:#4ec9b0;">Texture2D</span>(<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#b8d7a3;">TextureFormat</span><span style="color:#b4b4b4;">.</span>RGBAFloat,&nbsp;<span style="color:#569cd6;">false</span>);
+<span style="color:#4ec9b0;">RenderTexture</span><span style="color:#b4b4b4;">.</span>active&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;splatmap;
+dst<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">ReadPixels</span>(<span style="color:#9cdcfe;">copy</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#b5cea8;">0</span>);</pre>
+                </div>
+                <figcaption>fig. 4 ReadPixels implementation.</figcaption>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <p>
+                    We can make a couple optimizations.
+
+                    First, raycasts are used to determine the texture coordinates of the pixel before making the call.
+                    Meaning only one pixel needs to be sent back.
+
+                    Secondly, we can use a coroutine to reduce the number of calls to Read Pixels.
+
+                    Usually input delay is unacceptable for player controllers. But in this case we are reading the
+                    splatmap beneath the player, and since the player capsule has some diameter there can be a small
+                    delay before sinking into the ink and it won’t feel off.
+
+                    These optimizations help, but ReadPixels is fundamentally slow because it stalls the CPU while
+                    waiting on the render thread to finish before sending data back.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <h3>Async Gpu Readback</h3>
+                <p>
+                    With further research I found Unity’s AsyncGpuReadback class.
+
+                    This class does the same thing as ReadPixels, albeit on more generic data, and it allows the CPU to
+                    continue running while it waits on said data.
+
+                    This means the data will usually be a few frames old by the time the CPU gets it, but as established
+                    earlier a slight delay is okay.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <div class="codebox">
+                    <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;">
+<span style="color:#569cd6;">var</span>&nbsp;<span style="color:#9cdcfe;">rt</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">RenderTexture</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">GetTemporary</span>(<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#b8d7a3;">RenderTextureFormat</span><span style="color:#b4b4b4;">.</span>ARGBFloat);
+<span style="color:#4ec9b0;">Graphics</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">CopyTexture</span>(<span style="color:#9cdcfe;">target</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;(<span style="color:#569cd6;">int</span>)(<span style="color:#9cdcfe;">uv</span><span style="color:#b4b4b4;">.</span>x&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">target</span><span style="color:#b4b4b4;">.</span>width),&nbsp;(<span style="color:#569cd6;">int</span>)(<span style="color:#9cdcfe;">uv</span><span style="color:#b4b4b4;">.</span>y&nbsp;<span style="color:#b4b4b4;">*</span>&nbsp;<span style="color:#9cdcfe;">target</span><span style="color:#b4b4b4;">.</span>height),&nbsp;<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#b5cea8;">1</span>,&nbsp;<span style="color:#9cdcfe;">rt</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#b5cea8;">0</span>);
+<span style="color:#4ec9b0;">AsyncGPUReadback</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Request</span>(<span style="color:#9cdcfe;">rt</span>,&nbsp;<span style="color:#b5cea8;">0</span>,&nbsp;<span style="color:#b8d7a3;">TextureFormat</span><span style="color:#b4b4b4;">.</span>ARGB32,&nbsp;<span style="color:#dcdcaa;">OnCompleteReadback</span>);</pre>
+                </div>
+                <figcaption>fig. 5 AsyncGpuReadback implementation.</figcaption>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <p>
+                    Profiling each method in an isolated build shows that AsyncGpuReadback generally has a smaller
+                    rendering load on the CPU compared to ReadPixels [fig. 6-7].
+
+                    Furthermore, just like with ReadPixels an extra delay can be added between AsynGpuReadback calls.
+
+                    The end result is that AsyncGpuReadback is far more scalable than ReadPixels. In the second
+                    comparison each procedure gets called one hundred times per cycle using a for loop [fig. 8-9]
+                    (albeit I can not think of a practical reason why you would want to run the procedure that
+                    frequently).
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <img src="images/splatoon/splt_profile_rdpx.png" alt="">
+                <img src="images/splatoon/splt_profile_async.png" alt="">
+                <figcaption>fig. 6-7: ReadPixels (top) versus AsyncGpuReadback (bottom).</figcaption>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <img src="images/splatoon/splt_profile_rdpx_100x.png" alt="">
+                <img src="images/splatoon/splt_profile_async_100x.png" alt="">
+                <figcaption>fig. 8-9: ReadPixels running 100 times per cycle (top) versus AsyncGpuReadback running 100
+                    times per cycle (bottom).</figcaption>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <h3>Final Implementation</h3>
+                <p>
+                    While AsyncGpuReadback gets significantly better results, it does introduce some more complexity to
+                    the code.
+
+                    I created a SplatmapReader.cs class so any object could use this functionality, however
+                    AsyncGpuReadback works by making the request then passing the data to a callback function
+                    implemented in the same class. This makes it hard to get the data back to the original caller.
+
+                    To solve this issue I included a parameter for a delegate in Splatmap Reader’s public ReadPixel()
+                    function. A copy of the delegate gets saved by Splatmap Reader, and when AsynGpuReadback finishes it
+                    uses that delegate to pass the pixel Color back to the original caller.
+
+                    In my case the original caller is the PlayerController, which implements splatmap reading procedures
+                    in two functions.
+
+                    UpdateMovementState() requests data from a SplatmapReader object, then FinishUpdateMovementState()
+                    processes the returned data.
+
+                    FinishUpdateMovementState() perpetuates the loop by calling UpdateMovementState() with a delay. The
+                    delay time is exposed so it can be easily adjusted to maintain a good balance between accuracy and
+                    performance.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <img src="images/splatoon/splt_reader_flow.drawio-1.png" alt="">
+                <figcaption>fig. 10: Player Controller’s splatmap reading cycle.</figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection center-h">
+                <h2>Player Controller</h2>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <h3>Basic Approach</h3>
+                <p>
+                    Rather than using the physics engine or a prebuilt character controller, I wrote simple character
+                    and camera controls from scratch. I wanted to challenge myself with an unfamiliar approach to player
+                    controls.
+
+                    The character capsule does use Unity’s collision detection via a rigidbody component, but it does
+                    not simulate any physics. Simple gravity, input, and collision corrections are all calculated in my
+                    PlayerController.cs class.
+                </p>
+                <h3>Movement States</h3>
+                <p>
+                    To handle different interactions with the ink, PlayerController.cs implements four movement states.
+                    The movement states are defined in the public MovementState enum, which includes Walking, Swimming,
+                    WallSwimming, and EnemyInk.
+
+                    Player Controller continually updates a current movement state variable using the
+                    UpdateMovementState() and FinishUpdateMovementState() functions, which were partially described in
+                    the previous section.
+
+                    When determining the movement state, UpdateMovementState() uses raycasts to probe the splatmap in
+                    front of and beneath the player.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <div class="codebox">
+                    <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;">
+<span style="color:#608b4e;">///</span><span style="color:#608b4e;">&nbsp;Forward&nbsp;probe</span>
+<span style="color:#86c691;">Ray</span>&nbsp;<span style="color:#9cdcfe;">ray</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#569cd6;">new</span>&nbsp;<span style="color:#86c691;">Ray</span>(<span style="color:#9cdcfe;">origin</span>,&nbsp;mesh<span style="color:#b4b4b4;">.</span>transform<span style="color:#b4b4b4;">.</span>forward);
+<span style="color:#569cd6;">bool</span>&nbsp;<span style="color:#9cdcfe;">isValidHit</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#4ec9b0;">Physics</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Raycast</span>(<span style="color:#9cdcfe;">ray</span>,&nbsp;<span style="color:#569cd6;">out</span>&nbsp;<span style="color:#9cdcfe;">hit</span>,&nbsp;capsule<span style="color:#b4b4b4;">.</span>radius&nbsp;<span style="color:#b4b4b4;">+</span>&nbsp;<span style="color:#b5cea8;">.1f</span>);
+surfaceProbeHit&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">hit</span>;
+    
+<span style="color:#d8a0df;">if</span>(<span style="color:#9cdcfe;">isValidHit</span>&nbsp;<span style="color:#b4b4b4;">&amp;&amp;</span>&nbsp;currentMovementState&nbsp;<span style="color:#b4b4b4;">!=</span>&nbsp;<span style="color:#b8d7a3;">MovementState</span><span style="color:#b4b4b4;">.</span>EnemyInk)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#9cdcfe;">splatObj</span>&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#9cdcfe;">hit</span><span style="color:#b4b4b4;">.</span>collider<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">GetComponent</span>&lt;<span style="color:#4ec9b0;">SplatableObject</span>&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#d8a0df;">if</span>(<span style="color:#9cdcfe;">splatObj</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;splatmapReader<span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">ReadPixel</span>(<span style="color:#9cdcfe;">splatObj</span><span style="color:#b4b4b4;">.</span>Splatmap,&nbsp;<span style="color:#9cdcfe;">hit</span><span style="color:#b4b4b4;">.</span>textureCoord,&nbsp;<span style="color:#dcdcaa;">FinishUpdateMovementSate</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#d8a0df;">return</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</pre>
+                </div>
+                <figcaption>
+                    fig. 11: Since the player cannot transform into a squid if they are in enemy ink, a forward probe is
+                    only done if the current movement state does not equal EnemyInk. This also means if the forward
+                    probe hits, the ink on the floor is irrelevant. So only one pixel needs to be read per cycle.
+                </figcaption>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <p>
+                    If either the probe hits a Splatable Object, a request is sent to a Splatmap Reader object for the
+                    color at the hit’s texture coordinates.
+
+                    FinishUpdateMovementState() acts as the callback function that Splatmap Reader passes the color to.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <h3>Team Ink Colors</h3>
+                <p>
+                    One challenge was getting FinishUpdateMovementState() to determine if the color corresponds with
+                    friendly ink or enemy ink.
+
+                    Comparing two RGB colors could be imprecise, while having multiple splatmaps would increase
+                    complexity.
+
+                    However, I was able to use the color’s RGBA values to my advantage. I chose to have the splatmap
+                    alpha value represent if ink is present or not.
+
+                    The red channel then represents “Team 1” ink, while the green channel represents “Team 2” ink.
+
+                    The advantage to this approach is the player controller only needs to check which channel dominates
+                    to determine the ink color. Of course, Splatoon has many colors other than red and green, so the
+                    output shader uses channels as masks to lerp between different colors. This means designers can
+                    freely change team colors via parameters on the material without the need to update data in the
+                    player controller.
+                </p>
+            </div>
+
+            <span class="spacer horizontal"></span>
+
+            <div class="subsection">
+                <img src="images/splatoon/splt_inksurfaceshader.png" alt="">
+                <figcaption>fig. 12: The Inkbale Surface shader gives the final visual output of the ink.</figcaption>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <p>
+                    Default walking, swimming on the floor, and walking in enemy ink are all fairly trivial movement
+                    states (only the max speed and animation need updating). But if the movement state equals Swimming
+                    and the player starts pushing up against an inked wall, they begin swimming up the wall. To achieve
+                    this I conceptually separated horizontal and vertical movement calculations. Unfortunately this
+                    split is unclear in the code because I had to cut some corners in PlayerController.cs. More on this
+                    in the following section.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection">
+                <div class="codebox">
+                    <pre style="font-family:Cascadia Mono;font-size:13px;color:gainsboro;background:#1e1e1e;">
+<span style="color:#608b4e;">///</span><span style="color:#608b4e;">&nbsp;Wall&nbsp;Swimming</span>
+<span style="color:#d8a0df;">if</span>(surfaceProbeHit<span style="color:#b4b4b4;">.</span>collider&nbsp;<span style="color:#b4b4b4;">&amp;&amp;</span>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#86c691;">Vector3</span><span style="color:#b4b4b4;">.</span><span style="color:#dcdcaa;">Dot</span>(surfaceProbeHit<span style="color:#b4b4b4;">.</span>normal,&nbsp;<span style="color:#86c691;">Vector3</span><span style="color:#b4b4b4;">.</span>up)&nbsp;<span style="color:#b4b4b4;">-</span>&nbsp;slopeCheckTolerance&nbsp;<span style="color:#b4b4b4;">&lt;</span>&nbsp;minSlopeGradation
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#b4b4b4;">&amp;&amp;</span>&nbsp;<span style="color:#9cdcfe;">color</span><span style="color:#b4b4b4;">.</span>a&nbsp;<span style="color:#b4b4b4;">&gt;</span>&nbsp;inkAlphaMinThreshold&nbsp;<span style="color:#b4b4b4;">&amp;&amp;</span>&nbsp;<span style="color:#9cdcfe;">color</span><span style="color:#b4b4b4;">.</span>r&nbsp;<span style="color:#b4b4b4;">&gt;</span>&nbsp;<span style="color:#9cdcfe;">color</span><span style="color:#b4b4b4;">.</span>g&nbsp;<span style="color:#b4b4b4;">&amp;&amp;</span>&nbsp;isSquid)
+{
+&nbsp;&nbsp;&nbsp;&nbsp;currentMovementState&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#b8d7a3;">MovementState</span><span style="color:#b4b4b4;">.</span>WallSwimming;
+&nbsp;&nbsp;&nbsp;&nbsp;maxHorizontalSpeed&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;&nbsp;baseMaxHorizontalSpeed;
+&nbsp;&nbsp;&nbsp;&nbsp;grounded&nbsp;<span style="color:#b4b4b4;">=</span>&nbsp;<span style="color:#569cd6;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#dcdcaa;">Invoke</span>(<span style="color:#d69d85;">&quot;UpdateMovementState&quot;</span>,&nbsp;updateMovementStateDelay);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#d8a0df;">return</span>;
+}</pre>
+                </div>
+                <figcaption>
+                    fig. 13: Conditions for the Wall Swimming movement state in PlayerController.cs.
+                </figcaption>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+        <div class="section">
+            <div class="subsection center-h">
+                <h2>Limitations and What I Would Do Differently</h2>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="subsection start-v">
+                <p>
+                    Looking back on the project, my biggest mistake was spending too much time polishing the shaders
+                    early on. Within a few days I had the basic elements of the paint system and splatmap reader worked
+                    out. But then I got sidetracked working on purely visual things like normal maps and sheen.
+
+                    I also had to spend a few days working on other classes, so by the time I started the character
+                    controller I had under two weeks left. This caused a lot of stress in the second half of the
+                    project. Had I focused on a minimal functional product for the shaders early on, I could’ve started
+                    the controller with a lot more time and polished things later. This would have at least reduced
+                    stress levels, and at best helped me to get more done.
+
+                    As for the impact working on the shaders first did have, The character controller ended up a lot
+                    messier than I would have liked. It still has some bugs and inconveniences like not being able
+                    dynamically change the team channel, despite the shader being designed to support that.
+
+                    However, as previously stated I am happy with the progress made given the time frame. I got all of
+                    the major elements working and got to learn about shader programming and custom character
+                    controllers along the way.
+                </p>
+            </div>
+        </div>
+
+        <span class="spacer"></span>
+
+    </main>
+
+    <footer-element></footer-element>
+</body>
+
+</html>
