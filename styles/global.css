@@ -146,7 +146,7 @@ footer-element {
 
 span.spacer {
     display: block;
-    min-height: 50px;
+    min-height: 100px;
 }
 
 span.spacer.short {
@@ -299,12 +299,13 @@ ul.list-in-paragraph {
 
 div.section {
     /* 
-    * Displays contents horizontally withing a limited width. 
+    * Displays contents horizontally within a limited width. 
     * Stacks content vertically when the viewport is narrow.
     */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: start;
     white-space: nowrap;
 
     margin: auto;
@@ -322,9 +323,11 @@ div.section.center-h {
     justify-content: center;
 }
 
+/*
 div.section.project {
     min-height: 500px;
 }
+*/
 
 div.section>div.subsection {
     /* 
