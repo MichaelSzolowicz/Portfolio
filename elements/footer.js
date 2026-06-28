@@ -28,7 +28,7 @@ footer div {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 
     margin: 20px auto;
 
@@ -37,38 +37,10 @@ footer div {
     */
 }
 
-.socials {
-    font-size: 32px; 
-    display: inline;
-    list-style-type: none; 
-
-    margin: 0;
-}
-
-.socials i, .socials a {
-    display: inline;
-}
-
-.socials li {
-    margin: 015px;
-    display: inline;
-}
-
-.socials a:link, a:visited, a:hover, a:active {
-    color: black;
-    background-color: transparent;
-    text-decoration: none;
-}
-
 </style>
 <footer>
     <div>
-        <span>&copy; Michael Szolowicz 2025</span>
-
-        <ul class="socials" style="display: inline;">
-            <li><a href="https://www.linkedin.com/in/michael-a-szolowicz/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-            <li><a href="https://github.com/MichaelSzolowicz?tab=repositories" target="_blank"><i class="fa fa-github"></i></a></li>
-        </ul>
+        <text>Thank you for reading!</text>
     </div>
 </footer>
 `;

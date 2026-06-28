@@ -3,6 +3,7 @@ const headerTemplate = document.createElement('template');
 
 headerTemplate.innerHTML = `
 <link rel="stylesheet" href="styles/global.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 #header-logo {
     max-width: 300px;
@@ -34,6 +35,29 @@ header {
     margin: 20px auto;
 }
 
+.socials {
+    font-size: 32px; 
+    display: inline;
+    list-style-type: none; 
+
+    margin: 0;
+}
+
+.socials i, .socials a {
+    display: inline;
+}
+
+.socials li {
+    margin: 015px;
+    display: inline;
+}
+
+.socials a:link, a:visited, a:hover, a:active {
+    color: black;
+    background-color: transparent;
+    text-decoration: none;
+}
+
 </style>
 <header>
     <div class="header-body">
@@ -44,15 +68,10 @@ header {
         <span class="spacer short wide"></span>
 
         <ul class="project-buttons">
-            <li><span><a href="games.html">Games</a></span></li>
             <li><span><a href="art.html">Art</a></span></li>
-        </ul>
-
-        <!--
-        <ul class="socials">
             <li><a href="https://www.linkedin.com/in/michael-a-szolowicz/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/MichaelSzolowicz?tab=repositories" target="_blank"><i class="fa fa-github"></i></a></li>
         </ul>
-        -->
     </div>
 </header>
 `;
