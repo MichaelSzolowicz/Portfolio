@@ -44,7 +44,6 @@ header {
         <span class="spacer short wide"></span>
 
         <ul class="project-buttons">
-            <li><span><a href="games.html">Games</a></span></li>
             <li><span><a href="art.html">Art</a></span></li>
         </ul>
 
