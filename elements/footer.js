@@ -40,7 +40,7 @@ footer div {
 </style>
 <footer>
     <div>
-        <text>Thank you for reading!</text>
+        <text>michaelszolowicz@gmail.com</text>
     </div>
 </footer>
 `;

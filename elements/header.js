@@ -68,9 +68,10 @@ header {
         <span class="spacer short wide"></span>
 
         <ul class="project-buttons">
-            <li><span><a href="art.html">Art</a></span></li>
+            <li><span><a href="media/resumeMichaelSzolowicz.pdf" target="blank">CV</a></span></li>
             <li><a href="https://www.linkedin.com/in/michael-a-szolowicz/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
             <li><a href="https://github.com/MichaelSzolowicz?tab=repositories" target="_blank"><i class="fa fa-github"></i></a></li>
+            <li><span><a href="art.html">Art</a></span></li>
         </ul>
     </div>
 </header>
