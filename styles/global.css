@@ -146,6 +146,11 @@ div.section>div.subsection {
     flex: 0 0 70%;
 }
 
+.contact {
+    flex: 0 0 1%;
+    min-width: fit-content;
+}
+
 /* #endregion */
 
 /* #region Viewport Width Overrides */

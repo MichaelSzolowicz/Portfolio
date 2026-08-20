@@ -34,15 +34,10 @@ header {
 </style>
 <header>
     <div class="header-body">
-        <div id="header-logo">
-            <a href="index.html">Michael&nbspSzolowicz</a>
-        </div>
-
-        <span class="spacer short wide"></span>
-
         <div class="project-buttons">
+            <div><a href="index.html">Home</a></div>
             <div><a href="media/resumeMichaelSzolowicz.pdf" target="blank">CV</a></div>
-            <div><a href="index.html">Contact</a></div>
+            <div><a href="index.html#contact">Contact</a></div>
         </div>
     </div>
 </header>
