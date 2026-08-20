@@ -9,12 +9,14 @@ header {
     width: 100%;
     height: auto;
 
-    background-color: darkgrey;
+    background-color: var(--header-color);
 
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+
+    margin-bottom: var(--default-bottom-margin);
 }
 
 .header-body {
@@ -26,25 +28,8 @@ header {
     align-items: center;
     justify-content: space-between;
 
-    margin: 20px auto;
+    margin: 1em auto;
 }
-
-.fa {
-    font-size: 12em;
-}
-
-.project-buttons {
-    align-items: end;
-
-}
-
-.social-link {
-    font-family: sans-serif;
-    text-decoration: underline;
-    margin-left: .2em;
-    font-size: 1rem;
-}
-
 
 </style>
 <header>
@@ -57,13 +42,7 @@ header {
 
         <div class="project-buttons">
             <div><a href="media/resumeMichaelSzolowicz.pdf" target="blank">CV</a></div>
-            <div><a href="https://www.linkedin.com/in/michael-a-szolowicz/" target="_blank"><i class="fa fa-linkedin"><span class="social-link">LinkedIn</span></i></a></div>
-            <div>
-                <a href="https://github.com/MichaelSzolowicz?tab=repositories" target="_blank">
-                <i class="fa fa-github"></i><span class="social-link">GitHub</span>
-                </a>
-            </div>
-            <div><a href="art.html">Art</a></div>
+            <div><a href="index.html">Contact</a></div>
         </div>
     </div>
 </header>

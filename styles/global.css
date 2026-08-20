@@ -4,13 +4,17 @@
 :root {
     font-family: sans-serif;
 
+    --background-color: white;
     --vs-bg-color: #1e1e1e;
+    --header-color: white;
 
     --codebox-font-family: "Consolas, 'Courier New', monospace";
 
     --caption-font-size: .7rem;
 
     --section-width: 70%;
+
+    --default-bottom-margin: 3em;
 }
 
 /* #endregion */
@@ -26,7 +30,7 @@ html, body {
     min-height: 100vh;
     min-height: 100svh; /* fallback (?) helps with mobile positioning */
 
-    background-color: lightgray;
+    background-color: var(--background-color);
 
     margin: 0 0 0 0;
 }
@@ -81,6 +85,7 @@ div.codebox {
 
 .project-buttons {
     display: flex;
+    flex-wrap: wrap;
     gap: 1em;
 }
 
@@ -111,7 +116,7 @@ div.section {
 
     gap: 3em;
 
-    margin-bottom: 3em;
+    margin-bottom: var(--default-bottom-margin);
 
     /* Debug 
     border: solid;
@@ -138,7 +143,7 @@ div.section>div.subsection {
 }
 
 .project-video {
-    flex: 0 0 60%;
+    flex: 0 0 70%;
 }
 
 /* #endregion */
