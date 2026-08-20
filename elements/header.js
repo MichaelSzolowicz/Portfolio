@@ -5,12 +5,6 @@ headerTemplate.innerHTML = `
 <link rel="stylesheet" href="styles/global.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-#header-logo {
-    max-width: 300px;
-    margin: auto 0;
-    line-height: 1.16rem;
-}
-
 header {
     width: 100%;
     height: auto;
@@ -35,44 +29,42 @@ header {
     margin: 20px auto;
 }
 
-.socials {
-    font-size: 32px; 
-    display: inline;
-    list-style-type: none; 
-
-    margin: 0;
+.fa {
+    font-size: 12em;
 }
 
-.socials i, .socials a {
-    display: inline;
+.project-buttons {
+    align-items: end;
+
 }
 
-.socials li {
-    margin: 015px;
-    display: inline;
+.social-link {
+    font-family: sans-serif;
+    text-decoration: underline;
+    margin-left: .2em;
+    font-size: 1rem;
 }
 
-.socials a:link, a:visited, a:hover, a:active {
-    color: black;
-    background-color: transparent;
-    text-decoration: none;
-}
 
 </style>
 <header>
     <div class="header-body">
         <div id="header-logo">
-            <a href="index.html"><img src="images/global/logo.png" alt="Michael Szolowicz logo"></a>
+            <a href="index.html">Michael&nbspSzolowicz</a>
         </div>
 
         <span class="spacer short wide"></span>
 
-        <ul class="project-buttons">
-            <li><span><a href="media/resumeMichaelSzolowicz.pdf" target="blank">CV</a></span></li>
-            <li><a href="https://www.linkedin.com/in/michael-a-szolowicz/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-            <li><a href="https://github.com/MichaelSzolowicz?tab=repositories" target="_blank"><i class="fa fa-github"></i></a></li>
-            <li><span><a href="art.html">Art</a></span></li>
-        </ul>
+        <div class="project-buttons">
+            <div><a href="media/resumeMichaelSzolowicz.pdf" target="blank">CV</a></div>
+            <div><a href="https://www.linkedin.com/in/michael-a-szolowicz/" target="_blank"><i class="fa fa-linkedin"><span class="social-link">LinkedIn</span></i></a></div>
+            <div>
+                <a href="https://github.com/MichaelSzolowicz?tab=repositories" target="_blank">
+                <i class="fa fa-github"></i><span class="social-link">GitHub</span>
+                </a>
+            </div>
+            <div><a href="art.html">Art</a></div>
+        </div>
     </div>
 </header>
 `;
