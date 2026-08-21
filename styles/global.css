@@ -15,6 +15,7 @@
     --section-width: 70%;
 
     --default-bottom-margin: 3em;
+    --default-gap: 3em;
 }
 
 /* #endregion */
@@ -62,6 +63,14 @@ figcaption {
 
 /* #endregion */
 
+/* #region img */
+
+img {
+    width: 100%;
+}
+
+/* #endregion */
+
 /* #region Codebox */
 
 div.codebox {
@@ -81,16 +90,6 @@ div.codebox {
 
 /* #endregion */
 
-/* #region Project Buttons */
-
-.project-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
-}
-
-/* #endregion */
-
 /* #region Video */
 
 .video {
@@ -99,9 +98,9 @@ div.codebox {
 
 /* #endregion */
 
-/* #region Section */
+/* #region Project */
 
-div.section {
+.project {
     /* 
     * Displays contents horizontally within a limited width. 
     * Stacks content vertically when the viewport is narrow.
@@ -114,7 +113,7 @@ div.section {
     width: var(--section-width);
     height: fit-content;
 
-    gap: 3em;
+    gap: var(--default-gap);
 
     margin-bottom: var(--default-bottom-margin);
 
@@ -124,7 +123,7 @@ div.section {
     */
 }
 
-div.section>div.subsection {
+.project-content {
     /* 
     * Displays content vertically.
     */
@@ -135,20 +134,58 @@ div.section>div.subsection {
     white-space: wrap;
 
     width: 100%;
-    overflow-x: hidden;
 
     /* Debug 
     border: solid blue;
     */
 }
 
+.project-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
 .project-video {
     flex: 0 0 70%;
 }
 
+/* #endregion */
+
+/* #region Contact */
+
 .contact {
-    flex: 0 0 1%;
-    min-width: fit-content;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: var(--section-width);
+    margin-bottom: var(--default-bottom-margin);
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+}
+
+/* #endregion */
+
+/* #region About */
+
+.about {
+    display: flex;
+    flex-direction: column;
+    width: var(--section-width);
+    margin: auto;
+    margin-bottom: var(--default-bottom-margin);
+}
+
+.about-content {
+    display: flex;
+    flex-direction: row;
+    gap: var(--default-gap);
 }
 
 /* #endregion */
@@ -159,8 +196,12 @@ div.section>div.subsection {
 
     /* #region Sections */
 
-    div.section {
+    .project {
         /* Display */
+        flex-direction: column-reverse;
+    }
+
+    .about-content {
         flex-direction: column-reverse;
     }
 
