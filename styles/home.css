@@ -1,0 +1,106 @@
+/* #region Project */
+
+.project {
+    /* 
+    * Displays contents horizontally within a limited width. 
+    * Stacks content vertically when the viewport is narrow.
+    */
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+
+    margin: auto;
+    width: var(--section-width);
+    height: fit-content;
+
+    gap: var(--default-gap);
+
+    margin-bottom: var(--default-bottom-margin);
+
+    /* Debug 
+    border: solid;
+    background-color: aliceblue;
+    */
+}
+
+.project-content {
+    /* 
+    * Displays content vertically.
+    */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    white-space: wrap;
+
+    width: 100%;
+
+    /* Debug 
+    border: solid blue;
+    */
+}
+
+.project-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.project-video {
+    flex: 0 0 70%;
+}
+
+/* #endregion */
+
+/* #region Contact */
+
+.contact {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: var(--section-width);
+    margin-bottom: var(--default-bottom-margin);
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+}
+
+/* #endregion */
+
+/* #region About */
+
+.about {
+    display: flex;
+    flex-direction: row;
+    gap: var(--default-gap);
+    width: var(--section-width);
+    margin: auto;
+    margin-bottom: var(--default-bottom-margin);
+}
+
+/* #endregion */
+
+/* #region Viewport Width Overrides */
+
+@media screen and (max-width: 768px) {
+
+    /* #region Sections */
+
+    .project {
+        /* Display */
+        flex-direction: column-reverse;
+    }
+
+    .about {
+        flex-direction: column-reverse;
+    }
+
+    /* #endregion */ 
+}
+
+/* #endregion */
