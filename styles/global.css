@@ -7,6 +7,8 @@
     --background-color: white;
     --vs-bg-color: #1e1e1e;
     --header-color: white;
+    --link-color: #0000EEFF;
+    --visited-color: #551A8B;
 
     --codebox-font-family: "Consolas, 'Courier New', monospace";
 
@@ -37,6 +39,19 @@ html, body {
 }
 
 /* #endregion */
+
+a {
+    text-decoration: none;
+    color: var(--link-color);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--visited-color);
+}
 
 /* #region Paragraph */
 

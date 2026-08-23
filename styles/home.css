@@ -85,6 +85,25 @@
 
 /* #endregion */
 
+.copy-email {
+    color: #0000EE;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.copy-email:hover {
+    text-decoration: underline;
+}
+
+.external {
+    background-image: url(D:/Portfolio/images/global/external-link.svg);
+    background-size: 1em;
+    background-position: center right;
+    padding-right: 1em;
+    background-repeat: no-repeat;
+}
+
+
 /* #region Viewport Width Overrides */
 
 @media screen and (max-width: 768px) {
