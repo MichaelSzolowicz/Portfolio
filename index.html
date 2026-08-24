@@ -2,12 +2,13 @@
 <html lang="eng-US">
 
 <head>
-    <title>Home</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Michael Szolowicz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="images/global/favicon.png">
     <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/home.css">
     <script src="elements/header.js" type="text/javascript" defer></script>
-    <script src="elements/footer.js" type="text/javascript" defer></script>
+    <script src="scripts/copyText.js" type="text/javascript" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -15,33 +16,34 @@
     <header-element></header-element>
 
     <main>
-        <span class="spacer"></span>
-
-        <div class="section project">
-            <div class="subsection project-info">
-                <h2 class="project-heading">Tools Intern</h2>
-                <p class="project-subheading">Infinity Ward</p>
-                <ul class="project-description">
-                    <li>Implemented UI using PyQt to represent level content in a spatial hierarchy, making it easy to find and select content.</li>
-                    <li>Responded to bug reports by reproducing and fixing issues then following up with reporters, ensuring tool stability.</li>
-                    <li>Optimized level baking by batching calls to C++ engine code and multithreading Python code, reducing iteration time.</li>
-                </ul>
-            </div>
-
-            <span class="spacer thin short"></span>
-
-            <div class="subsection project-video">
+        <div class="project">
+            <div class="project-content project-video">
                 <iframe class="video" src="https://www.youtube.com/embed/jLbst85USN8?si=NiNmwDEbTLLPeQlG" 
                 title="YouTube video player" frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
+
+            <div class="project-content">
+                <h2 class="project-heading">Tools Intern</h2>
+                <p class="project-subheading">Infinity Ward</p>
+                <ul>
+                    <li>Implemented UI using PyQt to represent level content in a spatial hierarchy, making it easy to find and select content.</li>
+                    <li>Responded to bug reports by reproducing and fixing issues then following up with reporters, ensuring tool stability.</li>
+                    <li>Optimized level baking by batching calls to C++ engine code and multithreading Python code, reducing iteration time.</li>
+                </ul>
+            </div>
         </div>
 
-        <span class="spacer"></span>
+        <div class="project">
+            <div class="project-content project-video">
+                <iframe class="video" src="https://www.youtube.com/embed/fXzoS_Zckv4?si=pjtB7pF7smkhxLX9"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
 
-        <div class="section project">
-            <div class="subsection project-info">
+            <div class="project-content">
                 <h2 class="project-heading">Stumblebumps Unite</h2>
                 <p class="project-subheading">Design Director</p>
                 <ul class="project-description">
@@ -49,25 +51,19 @@
                     <li>Set and translated vision into design goals; met those goals by evaluating and iterating features against playtest data.</li>
                     <li>Designed UI wireframes and used playtest data to iterate those designs, conveying ideas to artists and engineers.</li>
                 </ul>
-                <ul class="project-buttons">
-                    <li><span><a href="https://cagd.itch.io/stumblebumps-unite" target="_blank">itch.io</a></span></li>
-                    <li><span><a href="https://cagd.itch.io/stumblebumps-unite/devlog/854589/design-blog-postmortem" target="blank">Learn More</a></span></li>
-            </div>
-
-            <span class="spacer thin short"></span>
-
-            <div class="subsection project-video">
-                <iframe class="video" src="https://www.youtube.com/embed/fXzoS_Zckv4?si=pjtB7pF7smkhxLX9"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div class="project-buttons">
+                    <!--<div><a class="external" href="https://cagd.itch.io/stumblebumps-unite" target="_blank">itch.io</a></div>-->
+                    <div><a class="external" href="https://cagd.itch.io/stumblebumps-unite/devlog/854589/design-blog-postmortem" target="blank">Learn More</a></div>
+                </div>
             </div>
         </div>
 
-        <span class="spacer"></span>
+        <div class="project">
+            <div class="project-content project-video">
+                <iframe class="video" src="https://www.youtube.com/embed/538K02-BzO8?si=pM_P5NogzvA09_Dw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
 
-        <div class="section project">
-            <div class="subsection project-info">
+            <div class="project-content">
                 <h2 class="project-heading">Wash Away</h2>
                 <p class="project-subheading">Solo Project</p>
                 <ul class="project-description">
@@ -76,17 +72,43 @@
                     <li>Modified open source, C++/Qt drawing software Krita to support dual-layer editing, eliminating pipeline bottlenecks.</li>
                 </ul>
             </div>
-
-            <span class="spacer thin short"></span>
-
-            <div class="subsection project-video">
-                <iframe class="video" src="https://www.youtube.com/embed/538K02-BzO8?si=pM_P5NogzvA09_Dw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
         </div>
 
-        <span class="spacer"></span>
+        <div class="contact" id="contact">
+            <h2>Contact</h2>
+            <div class="contact-info">
+                <div>michaelszolowicz@gmail.com <button data-copy="michaelszolowicz@gamil.com">copy email</button></div>
+                <a class="external" href="https://www.linkedin.com/in/michael-a-szolowicz/" target="_blank">LinkedIn</a>
+                <a class="external" href="https://github.com/MichaelSzolowicz" target="blank">GitHub</a>
+            </div>
+            <div>
+                <div>Based in Bakersfield, California.</div>
+            </div>
+        </div>
+<!--
+        <div class="about">
+            <div>
+                <h2>About</h2>
+                <p>
+                    In 2021, as a freshman with no connections to the games industry I asked my advisor about opportunities to get some engineering experience. She referred me to Research Experiences for Undergraduates, or REU. I applied and in 2022 landed my first paid programming role as a research assistant at Cal Poly Pomona. I leveraged this experience into a final round interview with Activision. No dice, but the team had positive feedback, and I stayed in touch with my recruiter. This helped me through screening in 2023 and I finally landed the role in 2024.
+                </p>
+            </div>
+            <div>
+                <img src="images/iw/iw_iternDay.jpg" width="100%">
+                <figcaption>Placeholder image.</figcaption>
+            </div>
+        </div>
+-->
 
+    <!--
         <div class="section project">
+            <div class="subsection project-video">
+                <iframe class="video" src="https://www.youtube.com/embed/QeQNPq0wjnA?si=d2yHm6O_ozIndUzr"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+
             <div class="subsection project-info">
                 <h2 class="project-heading">Splatoon Clone</h2>
                 <p class="project-subheading">Solo Project</p>
@@ -95,25 +117,21 @@
                     <li>Optimized GPU render texture readback by moving to an asynchronous solution which improved scalability.</li>
                     <li>Implemented character physics in C# from scratch to support readback of render textures and six movement states.</li>
                 </ul>
-                <ul class="project-buttons">
-                    <li><span><a href="https://github.com/MichaelSzolowicz/SplatoonClone" target="_blank">Github</a></span></li>
-                    <li><span><a href="splatoon.html">Learn More</a></span></li>
-                </ul>
+                <div class="project-buttons">
+                    <div><a href="https://github.com/MichaelSzolowicz/SplatoonClone" target="_blank">Github</a></div>
+                    <div><a href="splatoon.html">Learn More</a></div>
+                </div>
             </div>
+        </div>
 
-            <span class="spacer thin short"></span>
-
+        <div class="section project">
             <div class="subsection project-video">
-                <iframe class="video" src="https://www.youtube.com/embed/QeQNPq0wjnA?si=d2yHm6O_ozIndUzr"
+                <iframe class="video" src="https://www.youtube.com/embed/26BrBV_vbpc?si=xNdXjTNPO6Ei2Tst"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
-        </div>
 
-        <span class="spacer"></span>
-
-        <div class="section project">
             <div class="subsection project-info">
                 <h2 class="project-heading">Paper Guts</h2>
                 <p class="project-subheading">48 hour Chico game jam</p>
@@ -129,21 +147,9 @@
                     <li><span><a href="https://jarroyo1.itch.io/paper-guts" target="_blank">itch.io</a></span></li>
                 </ul>
             </div>
-
-            <span class="spacer thin short"></span>
-
-            <div class="subsection project-video">
-                <iframe class="video" src="https://www.youtube.com/embed/26BrBV_vbpc?si=xNdXjTNPO6Ei2Tst"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
         </div>
-
-        <span class="spacer"></span>
+    -->
     </main>
-
-    <footer-element></footer-element>
 </body>
 
 </html>

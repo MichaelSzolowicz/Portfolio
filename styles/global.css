@@ -2,42 +2,22 @@
 /* #region Root */
 
 :root {
-    font-family: Helvetica, sans-serif;
-    font-size: 99%;
-    letter-spacing: .08rem;
-    line-height: 2rem;
+    font-family: sans-serif;
 
+    --background-color: white;
     --vs-bg-color: #1e1e1e;
-
-    --heading-font-family: 'Franklin Gothic Book', 'Arial Narrow', Arial, sans-serif;
-    --heading-font-variant: small-caps;
-    --heading-letter-spacing: .1em;
-    --heading-font-weight: 200;
-    --heading1-size: 2.5rem;
-    --heading2-size: 2rem;
-    --heading3-size: 1.7rem;
-    --heading4-size: 1rem;
-    --heading5-size: .5rem;
-    --heading6-size: .25rem;
+    --header-color: white;
+    --link-color: #0000EEFF;
+    --visited-color: #551A8B;
 
     --codebox-font-family: "Consolas, 'Courier New', monospace";
 
-    --paragraph-margins: 0 0 2em 0;
-    --header-margins: 0 0 .6em 0;
+    --caption-font-size: .7rem;
 
-    --section-width: 80%;
-    --section-max-width: 1500px;
+    --section-width: 70%;
 
-    --section-image-thin: 300px;
-    --section-image-wide: 400px;
-    --section-image-extra-wide: 500px;
-
-    --section-paragraph-thin: 40%;
-    --section-paragraph-extra-thin: 20%;
-    --section-paragraph-wide: 50%;
-    --section-paragraph-extra-wide: 60%;
-
-    --section-paragraph-min-width: 400px;
+    --default-bottom-margin: 6em;
+    --default-gap: 3em;
 }
 
 /* #endregion */
@@ -53,56 +33,38 @@ html, body {
     min-height: 100vh;
     min-height: 100svh; /* fallback (?) helps with mobile positioning */
 
-    background-color: lightgray;
-}
+    background-color: var(--background-color);
 
-main {
-    margin-top: auto;
-    margin-bottom: auto;
+    margin: 0 0 0 0;
 }
 
 /* #endregion */
 
+a {
+    text-decoration: none;
+    color: var(--link-color);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--visited-color);
+}
+
 /* #region Paragraph */
 
 p {
-    margin: var(--paragraph-margins);
+    margin: 0;
 }
 
 /* #endregion */
 
 /* #region Headings */
 
-.h, h1, h2, h3, h4, h5, h6 {
-    font-family: var(--heading-font-family);
-    font-variant: var(--heading-font-variant);
-    letter-spacing: var(--heading-letter-spacing);
-    font-weight: var(--heading-font-weight);
-    margin: var(--header-margins);
-}
-
-.h.h1, h1 {
-    font-size: var(--heading1-size);
-}
-
-.h.h2, h2 {
-    font-size: var(--heading2-size);
-}
-
-.h.h3, h3 {
-    font-size: var(--heading3-size);
-}
-
-.h.h4, h4 {
-    font-size: var(--heading4-size);
-}
-
-.h.h5, h5 {
-    font-size: var(--heading5-size);
-}
-
-.h.h6, h6 {
-    font-size: var(--heading6-size);
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 0 0;
 }
 
 /* #endregion */
@@ -110,67 +72,16 @@ p {
 /* #region Figcaption  */
 
 figcaption {
-    font-size: .7rem;
-    text-align: center;
-    margin: var(--paragraph-margins);
-    margin-top: .7em;
+    font-size: var(--caption-font-size);
+    text-align: left;
 }
 
 /* #endregion */
 
-/* #region Iframe */
-
-iframe {
-    border: none;
-}
-
-/* #endregion */
-
-/* #region Img */
+/* #region img */
 
 img {
     width: 100%;
-}
-
-/* #endregion */
-
-/* #region Footer Element */
-
-footer-element {
-    margin-top: auto;
-}
-
-/* #endregion */
-
-/* #region Spacer */
-
-span.spacer {
-    display: block;
-    min-height: 100px;
-}
-
-span.spacer.short {
-    min-height: 20px;
-}
-
-span.spacer.vertical {
-    min-height: 50px;
-}
-
-span.spacer.tall {
-    min-height: 200px;
-}
-
-span.spacer.thin {
-    min-width: 10px;
-}
-
-span.spacer.horizontal {
-    min-width: 20px;
-}
-
-span.spacer.wide {
-    min-width: 50px;
 }
 
 /* #endregion */
@@ -181,7 +92,6 @@ div.codebox {
     display: block;
     overflow-x: auto;
     overflow-y: auto;
-
     text-align: left;
 
     padding: 20px;
@@ -195,233 +105,10 @@ div.codebox {
 
 /* #endregion */
 
-/* #region Project Headings */
-
-/* Use these specifiers to correct the space between project subheadings and bullet points. */
-h2.project-heading {
-    margin-bottom: 0;
-}
-
-p.project-subheading {
-    margin: 1em 0 0 0;
-}
-
-/* #endregion */
-
-/* #region Project Bullets */
-
-.project-description {
-    margin: 1.5em 0 1em 0;
-}
-
-.project-description li {
-    margin: 0 0 .5em 0;
-}
-
-/* #endregion */
-
-/* #region Project Buttons */
-
-ul.project-buttons {
-    margin: 0 0;
-    padding-left: 0;
-}
-
-ul.project-buttons li {
-    margin-right: 20px;
-    display: inline;
-}
-
-ul.project-buttons.vertical li {
-    display: block;
-    margin-right: auto;
-    padding-bottom: 20px;
-    text-align: center;
-}
-
-ul.project-buttons li span {
-    display: inline-block; /* Keeps labels together when wrapping */
-}
-
-ul.project-buttons a {
-    height: 0;
-    --thickness: .1em;
-    --strike: 0;
-
-    background: linear-gradient(90deg, transparent, currentColor 0) no-repeat 
-    right .6em / calc(var(--strike) * 100%) var(--thickness);
-
-    transition: background-size .4s ease;
-
-    color: black;
-    text-decoration: none;
-
-    font-family: var(--heading-font-family);
-    font-variant: var(--heading-font-variant);
-    letter-spacing: var(--heading-letter-spacing);
-    font-weight: var(--heading-font-weight);
-    font-size: var(--heading3-size);
-    margin: 0 0 0 0;
-}
-
-ul.project-buttons a:hover {
-    --strike: 1;
-    background-position-x: left;
-}
-
-/* #endregion */
-
 /* #region Video */
 
-iframe.video {
+.video {
     aspect-ratio: 16 / 9;
-}
-
-/* #endregion */
-
-/* #region Document */
-
-iframe.document {
-    aspect-ratio: 16 / 9;
-}
-
-/* #endregion */
-
-/* #region List In Paragraph */
-
-ul.list-in-paragraph {
-    margin: var(--paragraph-margins);
-}
-
-/* #endregion */
-
-/* #region Section */
-
-div.section {
-    /* 
-    * Displays contents horizontally within a limited width. 
-    * Stacks content vertically when the viewport is narrow.
-    */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: start;
-    white-space: nowrap;
-
-    margin: auto;
-    width: var(--section-width);
-    max-width: var(--section-max-width);
-    height: fit-content;
-
-    /* Debug 
-    border: solid;
-    background-color: aliceblue;
-    */
-}
-
-div.section.center-h {
-    justify-content: center;
-}
-
-/*
-div.section.project {
-    min-height: 500px;
-}
-*/
-
-div.section>div.subsection {
-    /* 
-    * Displays content vertically.
-    */
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    white-space: wrap;
-
-    width: 100%;
-    overflow-x: hidden;
-
-    /* Debug 
-    border: solid blue;
-    */
-}
-
-div.section>div.subsection.center-h {
-    align-items: center;
-}
-
-div.section>div.subsection.start-v {
-    justify-content: start;
-}
-
-div.section>div.subsection.wide-media {
-    max-width: 70%;
-}
-
-div.section>div.subsection.project-media {
-    max-width: 500px;
-}
-
-div.section>div.subsection.project-video {
-    max-width: 600px;
-}
-
-div.section>div.subsection.project-info {
-    max-width: 700px;
-}
-
-/* #endregion */
-
-/* #region Viewport Width Overrides */
-
-@media screen and (max-width: 1500px) {
-
-    /* #region root */
-
-    :root {
-        --section-image-thin: 100%;
-        --section-image-wide: 100%;
-        --section-image-extra-wide: 100%;
-    
-        --section-paragraph-thin: 100%;
-        --section-paragraph-extra-thin: 100%;
-        --section-paragraph-wide: 100%;
-        --section-paragraph-extra-wide: 100%;
-    
-        --section-paragraph-min-width: 0;
-    }
-
-    /* #endregion */
-
-    /* #region Sections */
-
-    div.section {
-        /* Display */
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-
-    }
-
-    div.section>div.subsection.wide-media {
-        max-width: 100%;
-    }
-    
-    div.section>div.subsection.project-media {
-        max-width: 100%;
-    }
-
-    div.section>div.subsection.project-video {
-        max-width: 100%;
-    }
-    
-    div.section>div.subsection.project-info {
-        max-width: 100%;
-    }
-
-    /* #endregion */ 
 }
 
 /* #endregion */

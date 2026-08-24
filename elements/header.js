@@ -5,75 +5,30 @@ headerTemplate.innerHTML = `
 <link rel="stylesheet" href="styles/global.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-#header-logo {
-    max-width: 300px;
-    margin: auto 0;
-    line-height: 1.16rem;
-}
-
 header {
-    width: 100%;
-    height: auto;
-
-    background-color: darkgrey;
-
+    background-color: var(--header-color);
+    width: var(--section-width);
+    height: fit-content;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: left;
+    justify-content: left;
+    gap: 1em;
+    margin: 1em auto;
+    margin-bottom: var(--default-bottom-margin);
 }
 
 .header-body {
-    width: var(--section-width);
-    max-width: var(--section-max-width);
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
-    margin: 20px auto;
-}
-
-.socials {
-    font-size: 32px; 
-    display: inline;
-    list-style-type: none; 
-
-    margin: 0;
-}
-
-.socials i, .socials a {
-    display: inline;
-}
-
-.socials li {
-    margin: 015px;
-    display: inline;
-}
-
-.socials a:link, a:visited, a:hover, a:active {
-    color: black;
-    background-color: transparent;
-    text-decoration: none;
 }
 
 </style>
+
 <header>
-    <div class="header-body">
-        <div id="header-logo">
-            <a href="index.html"><img src="images/global/logo.png" alt="Michael Szolowicz logo"></a>
-        </div>
-
-        <span class="spacer short wide"></span>
-
-        <ul class="project-buttons">
-            <li><span><a href="media/resumeMichaelSzolowicz.pdf" target="blank">CV</a></span></li>
-            <li><a href="https://www.linkedin.com/in/michael-a-szolowicz/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-            <li><a href="https://github.com/MichaelSzolowicz?tab=repositories" target="_blank"><i class="fa fa-github"></i></a></li>
-            <li><span><a href="art.html">Art</a></span></li>
-        </ul>
-    </div>
+    <div><a href="index.html">Home</a></div>
+    <div><a href="media/resumeMichaelSzolowicz.pdf" target="blank">CV</a></div>
+    <div><a href="index.html#contact">Contact</a></div>
 </header>
 `;
 
