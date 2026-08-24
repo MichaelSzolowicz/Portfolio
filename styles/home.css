@@ -88,7 +88,7 @@
 /* #region External */
 
 .external {
-    background-image: url(Portfolio/images/global/external-link.svg);
+    background-image: url(../images/global/external-link.svg);
     background-size: 1em;
     background-position: center right;
     padding-right: 1em;
